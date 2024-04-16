@@ -21,6 +21,7 @@ import { useRoute, useLocation } from 'wouter';
 import { easing, geometry } from 'maath';
 import { useSetRecoilState } from 'recoil';
 import { currentModelName } from '@src/atom/model.atom';
+import { RigidBody } from '@react-three/rapier';
 
 extend(geometry);
 
@@ -63,10 +64,14 @@ function CardFrame({
     }
   });
 
-  const onRouter = (e: any) => {
-    e.stopPropagation();
+  // TODO: 상태 관리로 관리 하면 됨
+  const isPortal = useRef<boolean>(false);
+
+  const onRouter = () => {
+    // e.stopPropagation();
     setCurrentModelName(id);
     setLocation('/item/' + id);
+    isPortal.current = true;
   };
 
   return (
@@ -97,23 +102,35 @@ function CardFrame({
       >
         {author}
       </Text>
-      <mesh
-        name={id}
-        onDoubleClick={onRouter}
-        onPointerOver={() => hover(true)}
-        onPointerOut={() => hover(false)}
+      <RigidBody
+        type='fixed'
+        colliders='trimesh'
+        enabledRotations={[false, false, false]}
+        linearDamping={12}
+        lockRotations
+        onCollisionEnter={() => {
+          if (!isPortal.current) {
+            onRouter();
+          }
+        }}
       >
-        <roundedPlaneGeometry args={[width, height, 0.1]} />
-        {/* <Plane args={[1, 1.61803398875]} /> */}
-        <MeshPortalMaterial
-          ref={portal}
-          events={params?.id === id}
-          side={THREE.DoubleSide}
+        <mesh
+          name={id}
+          onClick={onRouter}
+          onPointerOver={() => hover(true)}
+          onPointerOut={() => hover(false)}
         >
-          <color attach='background' args={[bg]} />
-          {children}
-        </MeshPortalMaterial>
-      </mesh>
+          <roundedPlaneGeometry args={[width, height, 0.1]} />
+          <MeshPortalMaterial
+            ref={portal}
+            events={params?.id === id}
+            side={THREE.DoubleSide}
+          >
+            <color attach='background' args={[bg]} />
+            {children}
+          </MeshPortalMaterial>
+        </mesh>
+      </RigidBody>
     </group>
   );
 }

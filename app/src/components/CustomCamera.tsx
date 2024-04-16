@@ -32,7 +32,9 @@ const CustomCamera = ({
       // active.parent.localToWorld(position.set(0, 0.5, 0.25));
 
       active.parent.localToWorld(position.set(0, 0.5, 3));
+      // active.parent.localToWorld(position.set(0, 0.5, 3));
       active.parent.localToWorld(focus.set(0, 0, -2));
+      // active.parent.localToWorld(focus.set(0, 10, -12));
     }
     controls?.setLookAt(...position.toArray(), ...focus.toArray(), true);
   });
@@ -41,7 +43,6 @@ const CustomCamera = ({
       makeDefault
       minPolarAngle={0}
       maxPolarAngle={Math.PI / 2}
-
       // azimuthRotateSpeed={20}
     />
   );

@@ -72,11 +72,15 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
                 padding: 0,
               }}
               // rotation-x={-Math.PI / 2}
+              // rotation-x={THREE.MathUtils.degToRad(-90)}
               rotation-x={THREE.MathUtils.degToRad(-90)}
-              rotation-y={THREE.MathUtils.degToRad(30)}
-              rotation-z={THREE.MathUtils.degToRad(0.5)}
+              rotation-y={THREE.MathUtils.degToRad(0)}
+              // rotation-y={THREE.MathUtils.degToRad(30)}
+              rotation-z={THREE.MathUtils.degToRad(0)}
+              // rotation-z={THREE.MathUtils.degToRad(10)}
               // position={[0, 0.05, -0.09]}
-              position={[-4.66, -4.1, -0.1]}
+              // position={[-4.66, -4.1, -0.1]}
+              position={[-4.3, 0, 0]}
               transform
               // occlude
             >
@@ -88,30 +92,6 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
                 {children}
               </div>
             </Html>
-            {/*
-            <Html
-              style={{
-                width: 330,
-                height: 216,
-                background: '#f0f0f0',
-                borderRadius: 3,
-                overflowY: 'auto',
-                padding: 0,
-              }}
-              rotation-x={THREE.MathUtils.degToRad(-90)}
-              rotation-y={THREE.MathUtils.degToRad(30)}
-              position={[-4.66, -4.1, -0.1]}
-              transform
-              occlude
-            > */}
-            {/* {children} */}
-            {/* <div
-                className='wrapper'
-                onPointerDown={(e) => e.stopPropagation()}
-              > */}
-            {/* <HeroPage /> */}
-            {/* </div> */}
-            {/* </Html> */}
           </mesh>
         </group>
       </group>

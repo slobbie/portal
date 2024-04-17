@@ -78,11 +78,11 @@ export const sandWichIngredients: ISandWichIngredientsObj = {
   patty: {
     src: '/sandWichModel/Patty_Slice_Patty_0.glb',
     price: 2,
-    icon: '🍔',
+    icon: '🥩',
   },
   ketchup: {
     src: '/sandWichModel/Ketchup_Slice_Ketchup_0.glb',
     price: 2,
-    icon: '🍔',
+    icon: '🥫',
   },
 };

@@ -9,11 +9,13 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
+import ButtonCommon from '@src/common/components/button/ButtonCommon';
 import { sandWichIngredients } from '@src/constants/sandWich.constants';
 import { RecoilRoot } from 'recoil';
+import * as Styles from '@components/sandWich/styles/menuScreen.style';
 
 interface IMenuScreen {
-  addMenuCallback: (name: string) => void;
+  addMenuCallback: (name: string, pPrice: number) => void;
 }
 
 /**
@@ -23,19 +25,24 @@ interface IMenuScreen {
  * @returns React.JSX.Element
  */
 const MenuScreen = ({ addMenuCallback }: IMenuScreen) => {
+  const filerBread = Object.keys(sandWichIngredients).filter((item) => {
+    return item !== 'bread';
+  });
   return (
     <RecoilRoot>
-      <div>
-        {Object.keys(sandWichIngredients).map((item) => {
+      <div css={Styles.buttonBox}>
+        {filerBread.map((item) => {
           return (
-            <button
-              key={item}
-              onClick={() => {
-                addMenuCallback(item);
-              }}
-            >
-              {sandWichIngredients[item].icon}
-            </button>
+            <div key={item} css={Styles.button}>
+              <ButtonCommon
+                size='L'
+                onClick={() => {
+                  addMenuCallback(item, sandWichIngredients[item].price);
+                }}
+              >
+                {sandWichIngredients[item].icon}
+              </ButtonCommon>
+            </div>
           );
         })}
       </div>

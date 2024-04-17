@@ -40,7 +40,10 @@ const SandWichIngredient = ({
             position-y={-0.25}
             onClick={(e) => {
               e.stopPropagation();
-              sandWichController.removeSandIngredient(ingredient);
+              sandWichController.removeSandIngredient(
+                ingredient,
+                sandWichIngredients[ingredient.name].price
+              );
             }}
           >
             <mesh position-x={0.7} position-y={0.042}>

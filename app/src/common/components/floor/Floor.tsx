@@ -91,9 +91,6 @@ const Floor = () => {
     <group>
       <RigidBody
         ref={rigidBodyRef}
-        // type='fixed'
-        // colliders={false}
-        // colliders='trimesh'
         enabledRotations={[false, false, false]}
         linearDamping={50}
         lockRotations
@@ -109,8 +106,15 @@ const Floor = () => {
         </group>
       </RigidBody>
       <RigidBody type='fixed'>
+        {/* <Sparkles
+          count={100}
+          // size={scale as number[]}
+          position={[0, 0, 0]}
+          scale={[4, 1.5, 4]}
+          speed={0.3}
+        /> */}
         <Box position={[0, -1, 0]} args={[1000, 0, 1000]}>
-          <meshStandardMaterial color='springgreen' />
+          <meshStandardMaterial color={'#f0f0f0'} />
         </Box>
       </RigidBody>
     </group>

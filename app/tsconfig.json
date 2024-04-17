@@ -23,8 +23,10 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
       "@atom/*": ["src/atom/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@feature/*": ["src/feature/*"],
       "@components/*": ["src/components/*"],
       "@common/*": ["src/common/*"]
     }

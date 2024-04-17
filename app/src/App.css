@@ -7,6 +7,13 @@ body,
 root {
   padding: 0;
   margin: 0;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
 }
 
 .content {

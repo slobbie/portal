@@ -19,9 +19,11 @@ import {
 } from '@react-three/drei';
 import { useRoute, useLocation } from 'wouter';
 import { easing, geometry } from 'maath';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { currentModelName } from '@src/atom/model.atom';
 import { RigidBody } from '@react-three/rapier';
+import { isPortal } from '@src/atom/portal.atom';
+// import PortalModel from './model/PortalModel';
 
 extend(geometry);
 
@@ -56,6 +58,8 @@ function CardFrame({
   const [, params] = useRoute('/item/:id');
   const [hovered, hover] = useState(false);
   const setCurrentModelName = useSetRecoilState(currentModelName);
+  /** 포털 여부 상태 */
+  const [isPortalToggle, setIsPortalToggle] = useRecoilState(isPortal);
   useCursor(hovered);
 
   useFrame((_state, dt) => {
@@ -64,14 +68,11 @@ function CardFrame({
     }
   });
 
-  // TODO: 상태 관리로 관리 하면 됨
-  const isPortal = useRef<boolean>(false);
-
   const onRouter = () => {
     // e.stopPropagation();
     setCurrentModelName(id);
     setLocation('/item/' + id);
-    isPortal.current = true;
+    setIsPortalToggle(true);
   };
 
   return (
@@ -109,27 +110,41 @@ function CardFrame({
         linearDamping={12}
         lockRotations
         onCollisionEnter={() => {
-          if (!isPortal.current) {
+          if (!isPortalToggle) {
             onRouter();
           }
         }}
       >
+        {/* <Sparkles
+          count={30}
+          // size={scale as number[]}
+          position={[0, 0.9, 0]}
+          scale={[4, 1.5, 4]}
+          speed={0.3}
+        /> */}
         <mesh
+          // scale={0.6}
           name={id}
           onClick={onRouter}
           onPointerOver={() => hover(true)}
           onPointerOut={() => hover(false)}
         >
+          {/* <PortalModel scale={0.7} position-y={-1} /> */}
           <roundedPlaneGeometry args={[width, height, 0.1]} />
+          {/* <circleGeometry /> */}
+          {/* <mesh scale={0.6}> */}
           <MeshPortalMaterial
             ref={portal}
             events={params?.id === id}
             side={THREE.DoubleSide}
+            transparent
+            // blur={0.2}
           >
             <color attach='background' args={[bg]} />
             {children}
           </MeshPortalMaterial>
         </mesh>
+        {/* </mesh> */}
       </RigidBody>
     </group>
   );

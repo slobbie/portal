@@ -33,7 +33,7 @@ const SandWichModel = () => {
   const position = useMemo(() => {
     return isCurrentModel
       ? new Vector3(-0.3, 0, 0)
-      : new Vector3(-0.15, -0.26, -0.4);
+      : new Vector3(-0.3, -0.26, -0.4);
   }, [isCurrentModel]);
 
   /** 로테이션 상수  */

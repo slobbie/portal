@@ -50,6 +50,7 @@ import {
 import { Physics } from '@react-three/rapier';
 import Floor from '@common/components/floor/Floor';
 import * as THREE from 'three';
+import { sandWichTotalPrice } from '@src/atom/sandWich.atom';
 // import MaterialTest from './components/material/MaterialTest';
 extend(geometry);
 
@@ -63,6 +64,8 @@ const CanvasWorld = () => {
   const [param] = useRoute('/item/:id');
   const sandWichController = useSandWichModel();
   const currentModelNm = useRecoilValue(currentModelName);
+  /** 샌드위치 총합산 가격 */
+  const sandWichTotalPriceState = useRecoilValue(sandWichTotalPrice);
 
   const resetCurrentModelName = useSetRecoilState(currentModelName);
 
@@ -113,6 +116,13 @@ const CanvasWorld = () => {
     []
   );
 
+  /** 샌드위치 모델 초기화 이펙트  */
+  useEffect(() => {
+    if (currentModelNm !== '01') {
+      sandWichController.resetSandWichModel();
+    }
+  }, [currentModelNm, sandWichController]);
+
   return (
     <KeyboardControls map={keyMap}>
       <Canvas
@@ -155,24 +165,35 @@ const CanvasWorld = () => {
               author='SandWich Maker'
               bg='#e4cdac'
               groupProps={{
-                position: [-1.15, 0, 0],
+                position: [-1.3, 0, 0],
                 // position: [-1.5, 0, 0],
-                rotation: [0, 0.5, 0],
-                // rotation: [0, 0, 0],
+                // rotation: [0, 0.5, 0],
+                rotation: [0, 0, 0],
               }}
             >
               <SandWichModel />
               {isMenuScreen && (
-                <TabletModel
-                  groupProps={{
-                    scale: 0.3,
-                    position: [2.5, -0.3, 0],
-                  }}
-                >
-                  <MenuScreen
-                    addMenuCallback={sandWichController.addSandWichIngredient}
-                  />
-                </TabletModel>
+                <>
+                  <Text
+                    color='black'
+                    fontSize={1}
+                    scale={0.2}
+                    fontWeight='bold'
+                    position={[1.7, 2, 0]}
+                  >
+                    총금액: $ {sandWichTotalPriceState}
+                  </Text>
+                  <TabletModel
+                    groupProps={{
+                      scale: 0.3,
+                      position: [2.5, -0.3, 0],
+                    }}
+                  >
+                    <MenuScreen
+                      addMenuCallback={sandWichController.addSandWichIngredient}
+                    />
+                  </TabletModel>
+                </>
               )}
             </CardFrame>
             <CardFrame
@@ -218,16 +239,18 @@ const CanvasWorld = () => {
             >
               <SandWichModel />
               {isMenuScreen && (
-                <TabletModel
-                  groupProps={{
-                    scale: 0.3,
-                    position: [2.5, -0.3, 0],
-                  }}
-                >
-                  <MenuScreen
-                    addMenuCallback={sandWichController.addSandWichIngredient}
-                  />
-                </TabletModel>
+                <>
+                  <TabletModel
+                    groupProps={{
+                      scale: 0.3,
+                      position: [2.5, -0.3, 0],
+                    }}
+                  >
+                    <MenuScreen
+                      addMenuCallback={sandWichController.addSandWichIngredient}
+                    />
+                  </TabletModel>
+                </>
               )}
             </CardFrame>
 

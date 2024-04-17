@@ -32,3 +32,9 @@ export const sandWichState = atom({
     },
   ],
 });
+
+/** 샌드위치 가격 합산 상태 */
+export const sandWichTotalPrice = atom({
+  key: 'sandWichTotalPrice',
+  default: 0,
+});

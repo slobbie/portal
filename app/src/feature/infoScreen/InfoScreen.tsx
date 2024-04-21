@@ -10,7 +10,6 @@
 // =============================================================================
 import { useLocation, useRoute } from 'wouter';
 import * as Styles from '@feature/infoScreen/styles/infoScreen.style';
-import Arrow from '@assets/icon/arrow.png';
 import { useSetRecoilState } from 'recoil';
 import { isPortal } from '@src/atom/portal.atom';
 import logoIcon from '@assets/icon/logo.png';
@@ -39,22 +38,6 @@ const InfoScreen = () => {
         <img src={logoIcon} alt='logo' />
       </div>
       <a css={Styles.AboutText}>Creative by Slobbie</a>
-      <div css={Styles.KeyBoardInfoContent}>
-        <div css={Styles.KeyBoardItem}>
-          <img src={Arrow} css={Styles.ArrowIcon('180deg')} />
-        </div>
-        <div css={Styles.KeyBoardBottomBox}>
-          <div css={Styles.KeyBoardItem}>
-            <img src={Arrow} css={Styles.ArrowIcon('90deg')} />
-          </div>
-          <div css={Styles.KeyBoardItem}>
-            <img src={Arrow} css={Styles.ArrowIcon('0deg')} />
-          </div>
-          <div css={Styles.KeyBoardItem}>
-            <img src={Arrow} css={Styles.ArrowIcon('270deg')} />
-          </div>
-        </div>
-      </div>
       <a
         style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}
         href='#'

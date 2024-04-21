@@ -54,7 +54,7 @@ const Character = ({ ...props }) => {
   );
 
   const { nodes, materials, animations } = useGLTF(
-    'people/people.glb'
+    '/people/people.glb'
   ) as TCharacterGLTFResult;
 
   /** 현재 실행 되는 애니메이션 이름 상태 */
@@ -101,6 +101,6 @@ const Character = ({ ...props }) => {
   );
 };
 
-useGLTF.preload('people/people.glb');
+useGLTF.preload('/people/people.glb');
 
 export default Character;

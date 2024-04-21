@@ -46,11 +46,12 @@ export const KeyBoardItem = css`
   justify-content: center;
 `;
 
-export const ArrowIcon = (rotate: string) => {
+export const ArrowIcon = (rotate: string, press: boolean) => {
   return css`
     width: 80%;
     height: 80%;
     transform: rotate(${rotate});
+    opacity: ${press ? 0.2 : 1};
   `;
 };
 

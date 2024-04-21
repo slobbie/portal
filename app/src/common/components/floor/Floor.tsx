@@ -14,6 +14,8 @@ import { useEffect, useMemo, useRef } from 'react';
 import { RapierRigidBody, RigidBody } from '@react-three/rapier';
 import Character from '@common/components/character/Character';
 import { useFrame } from '@react-three/fiber';
+import { useRecoilValue } from 'recoil';
+import { isCharacterMove } from '@src/atom/model.atom';
 
 enum Controls {
   forward = 'forward',
@@ -46,11 +48,8 @@ const Floor = () => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
 
   const characterRef = useRef<THREE.Group>(null);
-  const move = 0.0005;
-  const maxSpeed = 0.09;
-  const minSpeed = -0.09;
-
-  const impulse = useRef({ x: 0, y: 0, z: 0 });
+  const move = 0.1;
+  const speedValue = 0.8;
 
   /** 키보드 키 눌린 여부 */
   const isKeyPressed = useMemo(
@@ -58,32 +57,31 @@ const Floor = () => {
     [rightPressed, leftPressed, forwardPressed, backPressed]
   );
 
+  const isMovement = useRecoilValue(isCharacterMove);
+
+  useEffect(() => {}, [isMovement]);
+
   /** 캐릭터 움직임 프레임 애니메이션 */
   useFrame(() => {
-    if (characterRef.current && rigidBodyRef.current && isKeyPressed) {
-      if (rightPressed && impulse.current.x < maxSpeed) {
-        impulse.current.x += move;
-        // characterRef.current.position.x += move;
-        characterRef.current.rotation.y = THREE.MathUtils.degToRad(90);
+    if (characterRef.current && rigidBodyRef.current) {
+      const impulse = { x: 0, y: 0, z: 0 };
+      const linvel = rigidBodyRef.current.linvel();
+      if (rightPressed && linvel.x < speedValue) {
+        impulse.x += move;
+      } else if (leftPressed && linvel.x > -speedValue) {
+        impulse.x -= move;
+      } else if (forwardPressed && linvel.z > -speedValue) {
+        impulse.z -= move;
+      } else if (backPressed && linvel.z < speedValue) {
+        impulse.z += move;
       }
-      if (leftPressed && impulse.current.x > minSpeed) {
-        // characterRef.current.position.x -= move;
-        impulse.current.x -= move;
-        characterRef.current.rotation.y = THREE.MathUtils.degToRad(-90);
+      rigidBodyRef.current.applyImpulse(impulse, true);
+
+      // TODO: y 포지션 일 경우 캐릭터가 좌우로 흔들리는 이슈
+      if (isKeyPressed) {
+        const angle = Math.atan2(linvel.x, linvel.z);
+        characterRef.current.rotation.y = angle;
       }
-      if (forwardPressed && impulse.current.z > minSpeed) {
-        // characterRef.current.position.z -= move;
-        impulse.current.z -= move;
-        characterRef.current.rotation.y = THREE.MathUtils.degToRad(180);
-      }
-      if (backPressed && impulse.current.z < maxSpeed) {
-        // characterRef.current.position.z += move;
-        impulse.current.z += move;
-        characterRef.current.rotation.y = THREE.MathUtils.degToRad(0);
-      }
-      rigidBodyRef.current.applyImpulse(impulse.current, true);
-    } else {
-      impulse.current = { x: 0, y: 0, z: 0 };
     }
   });
 
@@ -95,26 +93,11 @@ const Floor = () => {
         linearDamping={50}
         lockRotations
       >
-        <group
-          ref={characterRef}
-          position={[0, -1, 1]}
-          // position={[0, 100, 1]}
-          scale={0.003}
-          // scale={0.2}
-          // position={[0, 0, 1]}
-          // scale={0.08}
-        >
+        <group ref={characterRef} position={[0, -1, 1]} scale={0.003}>
           <Character />
         </group>
       </RigidBody>
       <RigidBody type='fixed'>
-        {/* <Sparkles
-          count={100}
-          // size={scale as number[]}
-          position={[0, 0, 0]}
-          scale={[4, 1.5, 4]}
-          speed={0.3}
-        /> */}
         <Box position={[0, -1, 0]} args={[1000, 0, 1000]}>
           <meshStandardMaterial color={'#f0f0f0'} />
         </Box>

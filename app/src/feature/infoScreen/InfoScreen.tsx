@@ -13,6 +13,7 @@ import * as Styles from '@feature/infoScreen/styles/infoScreen.style';
 import Arrow from '@assets/icon/arrow.png';
 import { useSetRecoilState } from 'recoil';
 import { isPortal } from '@src/atom/portal.atom';
+import logoIcon from '@assets/icon/logo.png';
 
 /**
  *
@@ -34,7 +35,9 @@ const InfoScreen = () => {
 
   return (
     <div css={Styles.Content}>
-      <div css={Styles.Logo}>HS</div>
+      <div css={Styles.Logo}>
+        <img src={logoIcon} alt='logo' />
+      </div>
       <a css={Styles.AboutText}>Creative by Slobbie</a>
       <div css={Styles.KeyBoardInfoContent}>
         <div css={Styles.KeyBoardItem}>

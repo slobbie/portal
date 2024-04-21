@@ -46,7 +46,7 @@ const Floor = () => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
 
   const characterRef = useRef<THREE.Group>(null);
-  const move = 0.005;
+  const move = 0.0005;
   const maxSpeed = 0.09;
   const minSpeed = -0.09;
 
@@ -98,7 +98,9 @@ const Floor = () => {
         <group
           ref={characterRef}
           position={[0, -1, 1]}
-          scale={0.2}
+          // position={[0, 100, 1]}
+          scale={0.003}
+          // scale={0.2}
           // position={[0, 0, 1]}
           // scale={0.08}
         >

@@ -63,8 +63,14 @@ export const Logo = css`
   position: absolute;
   bottom: 40px;
   left: 40px;
-  width: 30px;
+  width: 40px;
+  height: 40px;
   font-size: 24px;
   font-weight: bold;
   font-style: oblique;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
 `;

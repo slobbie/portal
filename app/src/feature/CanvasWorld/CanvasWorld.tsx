@@ -224,36 +224,6 @@ const CanvasWorld = () => {
                 far={0.8}
               />
             </CardFrame>
-
-            <CardFrame
-              id='03'
-              name={`pick\n`}
-              author='SandWich Maker'
-              bg='#e4cdac'
-              groupProps={{
-                position: [1.2, 0, 0],
-                // position: [-1.5, 0, 0],
-                rotation: [0, -0.5, 0],
-                // rotation: [0, 0, 0],
-              }}
-            >
-              <SandWichModel />
-              {isMenuScreen && (
-                <>
-                  <TabletModel
-                    groupProps={{
-                      scale: 0.3,
-                      position: [2.5, -0.3, 0],
-                    }}
-                  >
-                    <MenuScreen
-                      addMenuCallback={sandWichController.addSandWichIngredient}
-                    />
-                  </TabletModel>
-                </>
-              )}
-            </CardFrame>
-
             {/* <Suspense>
     <Physics> */}
             {/* <Controller> */}

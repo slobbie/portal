@@ -16,3 +16,9 @@ export const currentModelName = atom({
   key: 'currentModelName',
   default: '',
 });
+
+/** 현재 선택 된 모델 이름 */
+export const isCharacterMove = atom({
+  key: 'isCharacterMove',
+  default: false,
+});

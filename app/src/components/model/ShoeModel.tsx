@@ -116,7 +116,7 @@ const ShoeModel = () => {
   const position = useMemo(() => {
     return isCurrentModel
       ? new THREE.Vector3(0, 0, 0)
-      : new THREE.Vector3(0, 0, -3);
+      : new THREE.Vector3(0.1, 0, -4);
   }, [isCurrentModel]);
 
   return (

@@ -51,7 +51,7 @@ import { Physics } from '@react-three/rapier';
 import Floor from '@common/components/floor/Floor';
 import * as THREE from 'three';
 import { sandWichTotalPrice } from '@src/atom/sandWich.atom';
-// import MaterialTest from './components/material/MaterialTest';
+import KeyInfo from '@feature/CanvasWorld/components/KeyInfo';
 extend(geometry);
 
 /**
@@ -240,6 +240,7 @@ const CanvasWorld = () => {
           </Physics>
         </Suspense>
       </Canvas>
+      <KeyInfo />
     </KeyboardControls>
   );
 };

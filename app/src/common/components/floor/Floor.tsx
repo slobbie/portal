@@ -48,7 +48,8 @@ const Floor = () => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
 
   const characterRef = useRef<THREE.Group>(null);
-  const move = 0.1;
+  const move = 0.028;
+
   const speedValue = 0.8;
 
   /** 키보드 키 눌린 여부 */
@@ -56,32 +57,33 @@ const Floor = () => {
     () => rightPressed || leftPressed || forwardPressed || backPressed,
     [rightPressed, leftPressed, forwardPressed, backPressed]
   );
-
+  /** 화면의 키 컨트롤로 인한 캐릭터 움직임 여부  */
   const isMovement = useRecoilValue(isCharacterMove);
 
   useEffect(() => {}, [isMovement]);
 
   /** 캐릭터 움직임 프레임 애니메이션 */
   useFrame(() => {
-    if (characterRef.current && rigidBodyRef.current) {
+    if (characterRef.current && rigidBodyRef.current && isKeyPressed) {
       const impulse = { x: 0, y: 0, z: 0 };
-      const linvel = rigidBodyRef.current.linvel();
-      if (rightPressed && linvel.x < speedValue) {
+      if (rightPressed) {
         impulse.x += move;
-      } else if (leftPressed && linvel.x > -speedValue) {
+      }
+      if (leftPressed) {
         impulse.x -= move;
-      } else if (forwardPressed && linvel.z > -speedValue) {
+      }
+      if (forwardPressed) {
         impulse.z -= move;
-      } else if (backPressed && linvel.z < speedValue) {
+      }
+      if (backPressed && impulse.z < speedValue) {
         impulse.z += move;
       }
-      rigidBodyRef.current.applyImpulse(impulse, true);
-
-      // TODO: y 포지션 일 경우 캐릭터가 좌우로 흔들리는 이슈
       if (isKeyPressed) {
-        const angle = Math.atan2(linvel.x, linvel.z);
+        const angle = Math.atan2(impulse.x, impulse.z);
         characterRef.current.rotation.y = angle;
       }
+
+      rigidBodyRef.current.applyImpulse(impulse, true);
     }
   });
 

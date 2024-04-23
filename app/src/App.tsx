@@ -1,5 +1,6 @@
-import CanvasWorld from './feature/CanvasWorld/CanvasWorld';
-import InfoScreen from './feature/infoScreen/InfoScreen';
+import { Loader } from '@react-three/drei';
+import CanvasWorld from '@feature/CanvasWorld/CanvasWorld';
+import InfoScreen from '@feature/infoScreen/InfoScreen';
 
 // roughness 거칠기 1아 거칠기 최대
 // metalness 금속성  1 로 될수록 금속에 가까워짐
@@ -21,6 +22,7 @@ function App() {
     <>
       <CanvasWorld />
       <InfoScreen />
+      <Loader />
     </>
   );
 }

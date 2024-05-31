@@ -22,7 +22,7 @@ export interface ISandWichIngredients {
  * 샌드 위치 재료 인터페이스
  */
 export interface IIngredient {
-  id: number;
+  id: string;
   name: string;
   price?: number;
 }
@@ -33,4 +33,5 @@ export interface IIngredient {
 export interface ISandWichIngredient {
   ingredient: IIngredient;
   showPrice: boolean;
+  positionsY: number;
 }

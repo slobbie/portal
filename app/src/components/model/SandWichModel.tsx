@@ -23,9 +23,10 @@ import { useMemo } from 'react';
  */
 const SandWichModel = () => {
   const spacing = 0.2;
+  // 샌드위치 재료
   const ingredients = useRecoilValue(sandWichState);
+  // 현재 선택된 모델이름
   const currentModelNm = useRecoilValue(currentModelName);
-
   /** 현재 선택된 모델 여부 */
   const isCurrentModel = currentModelNm === '01';
 
@@ -43,18 +44,24 @@ const SandWichModel = () => {
       : new Euler(0.4, -0.5, 0.1);
   }, [isCurrentModel]);
 
+  // 샌드위치 재료 랜더링
+  const renderSandWichIngredient = useMemo(() => {
+    return ingredients.map((item, index) => {
+      const isShowPrice = index > 0 && index < ingredients.length - 1;
+      return (
+        <SandWichIngredient
+          key={item.id}
+          ingredient={item}
+          showPrice={isShowPrice}
+          positionsY={index * spacing}
+        />
+      );
+    });
+  }, [ingredients]);
+
   return (
     <group position={position} rotation={rotation}>
-      {ingredients.map((item, index) => {
-        return (
-          <SandWichIngredient
-            key={item.id + item.name}
-            ingredient={item}
-            showPrice={index > 0 && index < ingredients.length - 1}
-            position-y={index * spacing}
-          />
-        );
-      })}
+      {renderSandWichIngredient}
     </group>
   );
 };

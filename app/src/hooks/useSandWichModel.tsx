@@ -11,17 +11,18 @@
 
 import { sandWichState, sandWichTotalPrice } from '@src/atom/sandWich.atom';
 import { IIngredient } from '@src/interface/sandWich.interface';
-import { useSetRecoilState } from 'recoil';
+import { useCallback } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
- *
- * @param
- * @property { string } propsName 설명
- * @returns React.JSX.Element
+ * 샌드위치 모델 제어 hook
+ * @returns addSandWichIngredient
+ * @returns removeSandIngredient
+ * @returns resetSandWichModel
  */
 const useSandWichModel = () => {
-  // const total = 5;
-  const setSandWich = useSetRecoilState(sandWichState);
+  const [sandWich, setSandWich] = useRecoilState(sandWichState);
   const setSandWichPrice = useSetRecoilState(sandWichTotalPrice);
 
   /**
@@ -29,25 +30,22 @@ const useSandWichModel = () => {
    * @param ingredient
    */
   const addSandWichIngredient = (newIngredient: string, pPrice: number) => {
-    setSandWichPrice((prev) => {
-      return prev + pPrice;
-    });
-    setSandWich((sandWich) => {
-      // 새로운 재료를 추가할 위치를 정의합니다. (현재는 두 번째 빵 사이에 추가합니다.)
-      const insertIndex = sandWich.length - 1;
-
-      // 현재 샌드위치 상태를 복제하여 새로운 배열을 생성합니다.
-      const newSandWich = [...sandWich];
-
-      // 샌드위치에 새로운 재료를 추가합니다.
-      newSandWich.splice(insertIndex, 0, {
-        id: sandWich.length, // 새로운 재료의 ID는 현재 샌드위치 배열의 길이로 설정합니다.
-        name: newIngredient,
+    if (sandWich.length < 10) {
+      // 샌드 위치 총 가격 추가
+      setSandWichPrice((prevPrice) => {
+        return prevPrice + pPrice;
       });
-
-      // 변경된 샌드위치 배열을 반환합니다.
-      return newSandWich;
-    });
+      // 새로운 샌드위치 요소 추가 작업
+      setSandWich((prevSandWich) => {
+        const insertIndex = prevSandWich.length - 1;
+        const newSandWich = [...prevSandWich];
+        newSandWich.splice(insertIndex, 0, {
+          id: uuidv4(),
+          name: newIngredient,
+        });
+        return newSandWich;
+      });
+    }
   };
 
   /**
@@ -55,46 +53,52 @@ const useSandWichModel = () => {
    * @param ingredient
    */
   const removeSandIngredient = (ingredient: IIngredient, pPrice: number) => {
-    setSandWichPrice((prev) => {
-      if (prev - pPrice < 0) {
-        return 0;
-      }
-      return prev - pPrice;
-    });
-    setSandWich((prevItem) => {
-      const newSandWich = [...prevItem];
-
-      const removeIngredient = newSandWich.filter((item) => {
-        return item.id !== ingredient.id;
+    if (sandWich.length > 4) {
+      setSandWichPrice((prev) => {
+        if (prev - pPrice < 0) {
+          return 0;
+        }
+        return prev - pPrice;
       });
+      setSandWich((prevItem) => {
+        const newSandWich = [...prevItem];
 
-      return removeIngredient;
-    });
+        const removeIngredient = newSandWich.filter((item) => {
+          if (item.name === 'bread') {
+            return item;
+          } else {
+            return item.id !== ingredient.id;
+          }
+        });
+
+        return removeIngredient;
+      });
+    }
   };
 
   /** 샌드위치 모델 초기화 함수  */
-  const resetSandWichModel = () => {
+  const resetSandWichModel = useCallback(() => {
     setSandWich(() => {
       return [
         {
-          id: 0,
+          id: uuidv4(),
           name: 'bread',
         },
         {
-          id: 1,
+          id: uuidv4(),
           name: 'lettuce',
         },
         {
-          id: 2,
+          id: uuidv4(),
           name: 'bacon',
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: 'bread',
         },
       ];
     });
-  };
+  }, [setSandWich]);
 
   return {
     addSandWichIngredient,

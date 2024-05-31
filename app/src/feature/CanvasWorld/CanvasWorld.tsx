@@ -121,7 +121,7 @@ const CanvasWorld = () => {
     if (currentModelNm !== '01') {
       sandWichController.resetSandWichModel();
     }
-  }, [currentModelNm, sandWichController]);
+  }, [currentModelNm]);
 
   return (
     <KeyboardControls map={keyMap}>
@@ -132,15 +132,7 @@ const CanvasWorld = () => {
         eventSource={document.getElementById('root')!}
         eventPrefix='client'
       >
-        {/* <OrbitControls /> */}
         <ambientLight intensity={3} />
-        {/* <CameraControls />
-  <OrbitControls /> */}
-        {/* <gridHelper />
-  <ambientLight intensity={3} />
-  <directionalLight intensity={3} /> */}
-        {/* <color attach='background' args={['tomato']} /> */}
-
         <Suspense>
           <Physics>
             <group
@@ -149,16 +141,10 @@ const CanvasWorld = () => {
               // rotation={[0, 0, -0.1]}
               rotation={[0, 0, 0]}
             >
-              {/* <axesHelper args={[10]} /> */}
-              {/* <Text3D size={0.2} font={'/Poppins_Bold.json'}>
-        Play Ground
-        <meshStandardMaterial color={'#000'} />
-      </Text3D> */}
               <Text color='black' fontSize={1} scale={0.2} fontWeight='bold'>
                 PORTAL
               </Text>
             </group>
-
             <CardFrame
               id='01'
               name={`pick\n`}
@@ -224,18 +210,7 @@ const CanvasWorld = () => {
                 far={0.8}
               />
             </CardFrame>
-            {/* <Suspense>
-    <Physics> */}
-            {/* <Controller> */}
-            {/* <Character /> */}
-            {/* </Controller> */}
-            {/* <Ground />
-        <PointerLockControls /> */}
-            {/* <Ground /> */}
             <Floor />
-            {/* </Physics> */}
-            {/* </Suspense> */}
-            {/* <CustomCamera /> */}
             <CustomCamera position={new THREE.Vector3(0, 0, 3.6)} />
           </Physics>
         </Suspense>

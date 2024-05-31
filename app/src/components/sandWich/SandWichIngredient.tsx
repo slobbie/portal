@@ -14,26 +14,36 @@ import { currentModelName } from '@src/atom/model.atom';
 import { sandWichIngredients } from '@src/constants/sandWich.constants';
 import useSandWichModel from '@src/hooks/useSandWichModel';
 import { ISandWichIngredient } from '@src/interface/sandWich.interface';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 
 /**
  * 샌드위치 재료 컴포넌트
- * @param
- * @property { string } propsName 설명
+ * @property { ISandWichIngredient } ingredient 샌드위치 재료 객체
+ * @property { boolean } showPrice 가격 표시 여부
+ * @property { number } positionsY 추가 하는 재료 position y 값
  * @returns React.JSX.Element
  */
 const SandWichIngredient = ({
   ingredient,
   showPrice,
-  ...props
+  positionsY,
 }: ISandWichIngredient) => {
   const sandWichController = useSandWichModel();
   const currentModelNm = useRecoilValue(currentModelName);
-  const scale = 3;
-  const scale_y = 5;
+
+  /** 재료 크기 상수 */
+  const ingredientScale = 3;
+  /** 재료 y 위치 */
+  const ingredientScaleY = 5;
+
+  /** 재료 모델 y 포지션 */
+  const modelYPosition = useMemo(() => {
+    return ingredientScaleY + (ingredient.name === 'bread' ? 5 : 0);
+  }, [ingredient.name]);
+
   return (
-    <group {...props} position={[0, 0, -0.3]}>
+    <group position-y={positionsY} position={[0, 0, -0.3]}>
       {showPrice && currentModelNm === '01' && (
         <Suspense>
           <group
@@ -46,10 +56,6 @@ const SandWichIngredient = ({
               );
             }}
           >
-            <mesh position-x={0.7} position-y={0.042}>
-              <planeGeometry args={[0, 9, 0.16]} />
-              <meshStandardMaterial color='#fff' opacity={0.42} transparent />
-            </mesh>
             <Text3D
               font={'/Poppins_Bold.json'}
               scale={0.1}
@@ -74,12 +80,14 @@ const SandWichIngredient = ({
           </group>
         </Suspense>
       )}
-      <Gltf
-        src={sandWichIngredients[ingredient.name].src}
-        scale={scale}
-        scale-y={scale_y + (ingredient.name === 'bread' ? 5 : 0)}
-        position-y={-0.2}
-      />
+      <Suspense>
+        <Gltf
+          src={sandWichIngredients[ingredient.name].src}
+          scale={ingredientScale}
+          scale-y={modelYPosition}
+          position-y={-0.2}
+        />
+      </Suspense>
     </group>
   );
 };

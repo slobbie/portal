@@ -10,24 +10,25 @@
 // =============================================================================
 
 import { atom } from 'recoil';
+import { v4 as uuidv4 } from 'uuid';
 
 export const sandWichState = atom({
   key: 'sandWichState',
   default: [
     {
-      id: 0,
+      id: uuidv4(),
       name: 'bread',
     },
     {
-      id: 1,
+      id: uuidv4(),
       name: 'lettuce',
     },
     {
-      id: 2,
+      id: uuidv4(),
       name: 'bacon',
     },
     {
-      id: 3,
+      id: uuidv4(),
       name: 'bread',
     },
   ],
@@ -36,5 +37,5 @@ export const sandWichState = atom({
 /** 샌드위치 가격 합산 상태 */
 export const sandWichTotalPrice = atom({
   key: 'sandWichTotalPrice',
-  default: 0,
+  default: 4,
 });

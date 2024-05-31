@@ -10,8 +10,8 @@
 // =============================================================================
 import { Vector3, Euler } from 'three';
 import { useRecoilValue } from 'recoil';
-import SandWichIngredient from '@components/sandWich/SandWichIngredient';
-import { sandWichState } from '@src/atom/sandWich.atom';
+import SandWichIngredient from '@src/feature/sandwich/components/SandWichIngredient';
+import { sandWichState } from '@src/feature/sandwich/atom/sandWich.atom';
 import { currentModelName } from '@src/atom/model.atom';
 import { useMemo } from 'react';
 

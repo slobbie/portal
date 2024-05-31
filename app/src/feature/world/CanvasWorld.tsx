@@ -33,10 +33,10 @@ import CardFrame from '@components/CardFrame';
 import CustomCamera from '@components/CustomCamera';
 // import RockingChairModel from './components/RockingChair';
 import { geometry } from 'maath';
-import SandWichModel from '@components/model/SandWichModel';
-import useSandWichModel from '@hooks/useSandWichModel';
-import TabletModel from '@components/model/TabletModel';
-import MenuScreen from '@components/sandWich/MenuScreen';
+import SandWichModel from '@src/feature/sandwich/model/SandWichModel';
+import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
+import TabletModel from '@src/feature/sandwich/model/TabletModel';
+import MenuScreen from '@src/feature/sandwich/components/MenuScreen';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentModelName } from '@atom/model.atom';
 import { Suspense, useEffect, useMemo } from 'react';
@@ -50,8 +50,8 @@ import {
 import { Physics } from '@react-three/rapier';
 import Floor from '@common/components/floor/Floor';
 import * as THREE from 'three';
-import { sandWichTotalPrice } from '@src/atom/sandWich.atom';
-import KeyInfo from '@feature/CanvasWorld/components/KeyInfo';
+import { sandWichTotalPrice } from '@src/feature/sandwich/atom/sandWich.atom';
+import KeyInfo from '@src/feature/world/components/KeyInfo';
 extend(geometry);
 
 /**

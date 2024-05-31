@@ -9,8 +9,11 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
-import { sandWichState, sandWichTotalPrice } from '@src/atom/sandWich.atom';
-import { IIngredient } from '@src/interface/sandWich.interface';
+import {
+  sandWichState,
+  sandWichTotalPrice,
+} from '@src/feature/sandwich/atom/sandWich.atom';
+import { IIngredient } from '@src/feature/sandwich/interface/sandWich.interface';
 import { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';

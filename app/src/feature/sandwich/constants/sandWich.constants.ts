@@ -9,7 +9,7 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
-import { ISandWichIngredients } from '@src/interface/sandWich.interface';
+import { ISandWichIngredients } from '@src/feature/sandwich/interface/sandWich.interface';
 
 interface ISandWichIngredientsObj {
   [key: string]: ISandWichIngredients;

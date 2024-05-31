@@ -12,7 +12,7 @@ import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { useRef } from 'react';
 import { GLTF } from 'three-stdlib';
-import * as Styles from '@components/sandWich/styles/menuScreen.style';
+import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 
 type TTabletModelGLTFResult = GLTF & {
   nodes: {

@@ -11,9 +11,9 @@
 
 import { Gltf, Text3D } from '@react-three/drei';
 import { currentModelName } from '@src/atom/model.atom';
-import { sandWichIngredients } from '@src/constants/sandWich.constants';
-import useSandWichModel from '@src/hooks/useSandWichModel';
-import { ISandWichIngredient } from '@src/interface/sandWich.interface';
+import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWich.constants';
+import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
+import { ISandWichIngredient } from '@src/feature/sandwich/interface/sandWich.interface';
 import { Suspense, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 

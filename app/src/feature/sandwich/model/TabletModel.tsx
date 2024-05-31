@@ -12,7 +12,7 @@ import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { useRef } from 'react';
 import { GLTF } from 'three-stdlib';
-import * as Styles from '@components/sandWich/styles/menuScreen.style';
+import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 
 type TTabletModelGLTFResult = GLTF & {
   nodes: {
@@ -40,7 +40,6 @@ interface ITabletModel {
  */
 const TabletModel = ({ children, groupProps }: ITabletModel) => {
   const group = useRef<THREE.Group>(null);
-  // Load model
   const { nodes, materials } = useGLTF(
     '/mac-draco.glb'
   ) as TTabletModelGLTFResult;
@@ -71,18 +70,11 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
                 overflowY: 'auto',
                 padding: 0,
               }}
-              // rotation-x={-Math.PI / 2}
-              // rotation-x={THREE.MathUtils.degToRad(-90)}
               rotation-x={THREE.MathUtils.degToRad(-90)}
               rotation-y={THREE.MathUtils.degToRad(0)}
-              // rotation-y={THREE.MathUtils.degToRad(30)}
               rotation-z={THREE.MathUtils.degToRad(0)}
-              // rotation-z={THREE.MathUtils.degToRad(10)}
-              // position={[0, 0.05, -0.09]}
-              // position={[-4.66, -4.1, -0.1]}
               position={[-4.3, 0, 0]}
               transform
-              // occlude
             >
               <div
                 css={Styles.container}

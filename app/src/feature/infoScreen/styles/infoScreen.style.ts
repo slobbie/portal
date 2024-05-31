@@ -44,6 +44,7 @@ export const KeyBoardItem = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const ArrowIcon = (rotate: string, press: boolean) => {

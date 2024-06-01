@@ -96,7 +96,7 @@ function CardFrame({
         /{id}
       </Text>
       <Text
-        fontSize={0.04}
+        fontSize={0.05}
         anchorX='right'
         position={[0.0, -0.677, 0.01]}
         material-toneMapped={false}
@@ -115,36 +115,23 @@ function CardFrame({
           }
         }}
       >
-        {/* <Sparkles
-          count={30}
-          // size={scale as number[]}
-          position={[0, 0.9, 0]}
-          scale={[4, 1.5, 4]}
-          speed={0.3}
-        /> */}
         <mesh
-          // scale={0.6}
           name={id}
           onClick={onRouter}
           onPointerOver={() => hover(true)}
           onPointerOut={() => hover(false)}
         >
-          {/* <PortalModel scale={0.7} position-y={-1} /> */}
           <roundedPlaneGeometry args={[width, height, 0.1]} />
-          {/* <circleGeometry /> */}
-          {/* <mesh scale={0.6}> */}
           <MeshPortalMaterial
             ref={portal}
             events={params?.id === id}
             side={THREE.DoubleSide}
             transparent
-            // blur={0.2}
           >
             <color attach='background' args={[bg]} />
             {children}
           </MeshPortalMaterial>
         </mesh>
-        {/* </mesh> */}
       </RigidBody>
     </group>
   );

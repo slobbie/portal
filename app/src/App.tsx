@@ -1,5 +1,5 @@
 import { Loader } from '@react-three/drei';
-import CanvasWorld from '@feature/CanvasWorld/CanvasWorld';
+import CanvasWorld from '@feature/world/CanvasWorld';
 import InfoScreen from '@feature/infoScreen/InfoScreen';
 
 // roughness 거칠기 1아 거칠기 최대

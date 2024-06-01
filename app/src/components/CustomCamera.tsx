@@ -14,9 +14,9 @@ import { CameraControls } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { useRoute } from 'wouter';
 import * as THREE from 'three';
+
 /**
- *
- * @param
+ * 카메라 컨트롤러
  * @property { string } propsName 설명
  * @returns React.JSX.Element
  */
@@ -29,12 +29,11 @@ const CustomCamera = ({
   useEffect(() => {
     const active = scene.getObjectByName(params?.id as string);
     if (active && active.parent) {
-      // active.parent.localToWorld(position.set(0, 0.5, 0.25));
-
       active.parent.localToWorld(position.set(0, 0.5, 3));
-      // active.parent.localToWorld(position.set(0, 0.5, 3));
+      /** 03 일경우 */
+      // active.parent.localToWorld(position.set(0, 0.5, 13));
       active.parent.localToWorld(focus.set(0, 0, -2));
-      // active.parent.localToWorld(focus.set(0, 10, -12));
+      // active.parent.localToWorld(focus.set(0, 0, -2));
     }
     controls?.setLookAt(...position.toArray(), ...focus.toArray(), true);
   });

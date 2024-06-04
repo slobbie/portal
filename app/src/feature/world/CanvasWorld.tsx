@@ -12,26 +12,13 @@
 import { Canvas, extend } from '@react-three/fiber';
 import '@src/App.css';
 import {
-  // Box,
-  // CameraControls,
-  // Center,
   ContactShadows,
-  // Gltf,
   Html,
   KeyboardControls,
-  // Line,
-  // Gltf,
-  // Html,
-  // MeshPortalMaterial,
-  // PointerLockControls,
   Text,
-  // useGLTF,
 } from '@react-three/drei';
-// import Rig from './Rig';
-// import Carousel from './components/Carousel';
 import CardFrame from '@components/CardFrame';
-import CustomCamera from '@components/CustomCamera';
-// import RockingChairModel from './components/RockingChair';
+import CameraController from '@src/components/CameraController';
 import { geometry } from 'maath';
 import SandWichModel from '@src/feature/sandwich/model/SandWichModel';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
@@ -125,9 +112,24 @@ const CanvasWorld = () => {
     }
   }, [currentModelNm]);
 
-  const baubles = [...Array(50)].map(() => ({
-    scale: [0.75, 0.75, 1, 1, 1.25][Math.floor(Math.random() * 5)],
-  }));
+  /** 기능에 따른 카메라 z position 변겨  */
+  const wordCameraPosition = useMemo(() => {
+    return (curModelNm: string) => {
+      switch (curModelNm) {
+        case '03':
+          return 13;
+        default:
+          return 3;
+      }
+    };
+  }, []);
+
+  /** 볼 생성 배열  */
+  const balls = useMemo(() => {
+    return [...Array(50)].map(() => ({
+      scale: [0.75, 0.75, 1, 1, 1.25][Math.floor(Math.random() * 5)],
+    }));
+  }, []);
 
   return (
     <KeyboardControls map={keyMap}>
@@ -239,13 +241,16 @@ const CanvasWorld = () => {
               <directionalLight position={[0, 5, -4]} intensity={4} />
               <Physics gravity={[0, 0, 0]} interpolate>
                 <PointerRigidBody />
-                {baubles.map((props, i) => (
+                {balls.map((props, i) => (
                   <BallModel key={i} {...props} />
                 ))}
               </Physics>
             </CardFrame>
             <Floor />
-            <CustomCamera position={new THREE.Vector3(0, 0, 3.6)} />
+            <CameraController
+              zPosition={wordCameraPosition(currentModelNm)}
+              position={new THREE.Vector3(0, 0, 3.6)}
+            />
           </Physics>
         </Suspense>
       </Canvas>

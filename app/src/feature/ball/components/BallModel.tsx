@@ -27,23 +27,22 @@ interface IEmojiModel {
 }
 
 /**
- *
- * @property { string } propsName 설명
+ * 볼 모델
+ * @property { number } scale object 크기
+ * @property { THREE.Vector3 } vec 백터
+ * @property { THREE.MathUtils.randFloatSpread } scale object 크기
  * @returns React.JSX.Element
  */
-const BallModel = ({
-  vec = new THREE.Vector3(),
-  scale,
-  r = THREE.MathUtils.randFloatSpread,
-}: IEmojiModel) => {
-  const api = useRef<RapierRigidBody>(null);
+const BallModel = ({ vec = new THREE.Vector3(), scale }: IEmojiModel) => {
+  const ballModelRigidBodyRef = useRef<RapierRigidBody>(null);
+  const randFloatSpread = THREE.MathUtils.randFloatSpread;
 
   useFrame((_state, delta) => {
-    if (api.current) {
+    if (ballModelRigidBodyRef.current) {
       delta = Math.min(0.1, delta);
-      api.current.applyImpulse(
+      ballModelRigidBodyRef.current.applyImpulse(
         vec
-          .copy(api.current.translation())
+          .copy(ballModelRigidBodyRef.current.translation())
           .normalize()
           .multiply({
             x: -50 * delta * scale,
@@ -60,8 +59,12 @@ const BallModel = ({
       linearDamping={0.75}
       angularDamping={0.15}
       friction={0.2}
-      position={[r(20), r(20) - 25, r(20) - 10]}
-      ref={api}
+      position={[
+        randFloatSpread(20),
+        randFloatSpread(20) - 25,
+        randFloatSpread(20) - 10,
+      ]}
+      ref={ballModelRigidBodyRef}
       colliders={false}
     >
       <BallCollider args={[scale]} />

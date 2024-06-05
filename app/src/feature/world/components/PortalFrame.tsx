@@ -20,30 +20,26 @@ import {
 import { useRoute, useLocation } from 'wouter';
 import { easing, geometry } from 'maath';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { currentModelName } from '@src/atom/model.atom';
+import { currentModelName } from '@src/common/atom/model.atom';
 import { RigidBody } from '@react-three/rapier';
-import { isPortal } from '@src/atom/portal.atom';
-// import PortalModel from './model/PortalModel';
+import { isPortal } from '@src/common/atom/portal.atom';
+import { IPortalFrame } from '@src/feature/world/interface/portalFrame.interface';
 
 extend(geometry);
 
-interface ICardFrame {
-  id: string;
-  name: string;
-  author: string;
-  bg: string;
-  width?: number;
-  height?: number;
-  children: React.ReactNode;
-  groupProps: JSX.IntrinsicElements['group'];
-}
 /**
- *
- * @param
- * @property { string } propsName 설명
+ * 포탈 프레임 컴포넌트
+ * @property { string } id
+ * @property { string } name 카드 이름
+ * @property { string } author 카드 설명
+ * @property { string } bg 카드 배경
+ * @property { string } width 넓이
+ * @property { string } height 높이
+ * @property { React.ReactNode } children React.ReactNode
+ * @property { string } groupProps JSX.IntrinsicElements['group'] there js group 내재 props
  * @returns React.JSX.Element
  */
-function CardFrame({
+const PortalFrame = ({
   id,
   name,
   author,
@@ -52,26 +48,35 @@ function CardFrame({
   height = 1.61803398875,
   children,
   groupProps,
-}: ICardFrame) {
-  const portal = useRef<PortalMaterialType>(null);
+}: IPortalFrame) => {
+  /** 포탈 프레인 머티리얼 ref */
+  const portalRef = useRef<PortalMaterialType>(null);
   const [, setLocation] = useLocation();
-  const [, params] = useRoute('/item/:id');
-  const [hovered, hover] = useState(false);
+  const [, params] = useRoute('/portal/:id');
+  const [frameHovered, setFrameHovered] = useState(false);
+  /** 현재 선택된 모델 */
   const setCurrentModelName = useSetRecoilState(currentModelName);
   /** 포털 여부 상태 */
   const [isPortalToggle, setIsPortalToggle] = useRecoilState(isPortal);
-  useCursor(hovered);
+  /** 현재 프레임 */
+  useCursor(frameHovered);
 
   useFrame((_state, dt) => {
-    if (portal.current) {
-      easing.damp(portal.current, 'blend', params?.id === id ? 1 : 0, 0.2, dt);
+    if (portalRef.current) {
+      easing.damp(
+        portalRef.current,
+        'blend',
+        params?.id === id ? 1 : 0,
+        0.2,
+        dt
+      );
     }
   });
-
+  /** 라우트 이벤트 핸들러 */
   const onRouter = () => {
     // e.stopPropagation();
     setCurrentModelName(id);
-    setLocation('/item/' + id);
+    setLocation('/portal/' + id);
     setIsPortalToggle(true);
   };
 
@@ -118,12 +123,12 @@ function CardFrame({
         <mesh
           name={id}
           onClick={onRouter}
-          onPointerOver={() => hover(true)}
-          onPointerOut={() => hover(false)}
+          onPointerOver={() => setFrameHovered(true)}
+          onPointerOut={() => setFrameHovered(false)}
         >
           <roundedPlaneGeometry args={[width, height, 0.1]} />
           <MeshPortalMaterial
-            ref={portal}
+            ref={portalRef}
             events={params?.id === id}
             side={THREE.DoubleSide}
             transparent
@@ -135,6 +140,6 @@ function CardFrame({
       </RigidBody>
     </group>
   );
-}
+};
 
-export default CardFrame;
+export default PortalFrame;

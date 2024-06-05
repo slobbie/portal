@@ -12,13 +12,11 @@ import { Vector3, Euler } from 'three';
 import { useRecoilValue } from 'recoil';
 import SandWichIngredient from '@src/feature/sandwich/components/SandWichIngredient';
 import { sandWichState } from '@src/feature/sandwich/atom/sandWich.atom';
-import { currentModelName } from '@src/atom/model.atom';
+import { currentModelName } from '@src/common/atom/model.atom';
 import { useMemo } from 'react';
 
 /**
  * 샌드 위치 3d 모델
- * @param
- * @property { string } propsName 설명
  * @returns React.JSX.Element
  */
 const SandWichModel = () => {

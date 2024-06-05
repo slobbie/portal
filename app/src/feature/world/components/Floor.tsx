@@ -12,77 +12,72 @@ import * as THREE from 'three';
 import { Box, useKeyboardControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef } from 'react';
 import { RapierRigidBody, RigidBody } from '@react-three/rapier';
-import Character from '@common/components/character/Character';
+import Character from '@src/feature/world/components/Character';
 import { useFrame } from '@react-three/fiber';
 import { useRecoilValue } from 'recoil';
-import { isCharacterMove } from '@src/atom/model.atom';
-
-enum Controls {
-  forward = 'forward',
-  back = 'backward',
-  left = 'left',
-  right = 'right',
-  jump = 'jump',
-}
+import { isCharacterMove } from '@src/common/atom/model.atom';
+import { keyControls } from '@feature/world/interface/keyboardControls.interface';
 
 /**
  * 공간 컴포넌트
  * @returns React.JSX.Element
  */
 const Floor = () => {
-  const planeRef = useRef<THREE.Mesh>(null);
-
-  const rightPressed = useKeyboardControls<Controls>((state) => state.right);
-  const leftPressed = useKeyboardControls<Controls>((state) => state.left);
-  const forwardPressed = useKeyboardControls<Controls>(
+  /** 오른쪽 화살표키 활성화 여부 */
+  const isRightPressed = useKeyboardControls<keyControls>(
+    (state) => state.right
+  );
+  /** 왼쪽 화살표키 활성화 여부 */
+  const isLeftPressed = useKeyboardControls<keyControls>((state) => state.left);
+  /** 위쪽 화살표키 활성화 여부 */
+  const isForwardPressed = useKeyboardControls<keyControls>(
     (state) => state.forward
   );
-  const backPressed = useKeyboardControls<Controls>((state) => state.backward);
-
-  useEffect(() => {
-    if (planeRef.current) {
-      planeRef.current.rotation.z = THREE.MathUtils.degToRad(10);
-    }
-  }, []);
+  /** 아랫쪽 화살표키 활성화 여부 */
+  const isBackPressed = useKeyboardControls<keyControls>(
+    (state) => state.backward
+  );
 
   const rigidBodyRef = useRef<RapierRigidBody>(null);
-
   const characterRef = useRef<THREE.Group>(null);
+
+  /** 움직임 정도 상수  */
   const move = 0.028;
 
+  /** 움직임 속도 상수  */
   const speedValue = 0.8;
 
   /** 키보드 키 눌린 여부 */
   const isKeyPressed = useMemo(
-    () => rightPressed || leftPressed || forwardPressed || backPressed,
-    [rightPressed, leftPressed, forwardPressed, backPressed]
+    () => isRightPressed || isLeftPressed || isForwardPressed || isBackPressed,
+    [isRightPressed, isLeftPressed, isForwardPressed, isBackPressed]
   );
   /** 화면의 키 컨트롤로 인한 캐릭터 움직임 여부  */
   const isMovement = useRecoilValue(isCharacterMove);
 
+  /** 화살표키 활성화 감지 이펙트 */
   useEffect(() => {}, [isMovement]);
 
   /** 캐릭터 움직임 프레임 애니메이션 */
   useFrame(() => {
     if (characterRef.current && rigidBodyRef.current && isKeyPressed) {
       const impulse = { x: 0, y: 0, z: 0 };
-      if (rightPressed) {
+      if (isRightPressed) {
         impulse.x += move;
       }
-      if (leftPressed) {
+      if (isLeftPressed) {
         impulse.x -= move;
       }
-      if (forwardPressed) {
+      if (isForwardPressed) {
         impulse.z -= move;
       }
-      if (backPressed && impulse.z < speedValue) {
+      if (isBackPressed && impulse.z < speedValue) {
         impulse.z += move;
       }
       if (isKeyPressed) {
         const angle = Math.atan2(impulse.x, impulse.z);
         characterRef.current.rotation.y = angle;
       }
-
       rigidBodyRef.current.applyImpulse(impulse, true);
     }
   });

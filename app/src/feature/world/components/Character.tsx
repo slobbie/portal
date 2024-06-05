@@ -8,29 +8,15 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import animationConfig from '@src/constants/animation.constants';
-
-enum keyControls {
-  forward = 'forward',
-  back = 'backward',
-  left = 'left',
-  right = 'right',
-  jump = 'jump',
-}
-
-type TCharacterGLTFResult = GLTF & {
-  nodes: {
-    ['mixamorig6Hips']: THREE.Mesh;
-    ['Ch09']: THREE.SkinnedMesh;
-  };
-  materials: {
-    ['Ch09_body']: THREE.Material;
-  };
-};
+import animationConfig from '@src/common/constants/animation.constants';
+import {
+  ICharacter,
+  TCharacterGLTFResult,
+} from '@feature/world/interface/character.interface';
+import { keyControls } from '@feature/world/interface/keyboardControls.interface';
 
 /**
  * 캐릭터 컴포넌트
@@ -38,7 +24,8 @@ type TCharacterGLTFResult = GLTF & {
  * @property { string } propsName 설명
  * @returns React.JSX.Element
  */
-const Character = ({ ...props }) => {
+const Character = (groupProps: ICharacter) => {
+  /** 캐릭터 ref */
   const characterRef = useRef<THREE.Group>(null);
   /** 오른쪽 화살표 키 */
   const rightPressed = useKeyboardControls<keyControls>((state) => state.right);
@@ -68,6 +55,7 @@ const Character = ({ ...props }) => {
     [rightPressed, leftPressed, forwardPressed, backPressed]
   );
 
+  /** 키 입력에 따른 모션 상태 변경 */
   useEffect(() => {
     if (isKeyPressed) {
       setAnimationState(animationConfig.walk);
@@ -76,6 +64,7 @@ const Character = ({ ...props }) => {
     }
   }, [isKeyPressed]);
 
+  /** 키 입력에 따른 캐릭터 모션 조정 */
   useEffect(() => {
     actions[animationState]?.reset().fadeIn(0.2).play();
     return () => {
@@ -84,7 +73,7 @@ const Character = ({ ...props }) => {
   }, [actions, animationState]);
 
   return (
-    <group ref={characterRef} {...props} dispose={null}>
+    <group ref={characterRef} {...groupProps} dispose={null}>
       <group name='AuxScene'>
         <group>
           <ambientLight intensity={2} />

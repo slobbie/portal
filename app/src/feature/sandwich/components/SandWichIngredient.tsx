@@ -10,7 +10,7 @@
 // =============================================================================
 
 import { Gltf, Text3D } from '@react-three/drei';
-import { currentModelName } from '@src/atom/model.atom';
+import { currentModelName } from '@src/common/atom/model.atom';
 import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWich.constants';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
 import { ISandWichIngredient } from '@src/feature/sandwich/interface/sandWich.interface';
@@ -29,9 +29,10 @@ const SandWichIngredient = ({
   showPrice,
   positionsY,
 }: ISandWichIngredient) => {
+  /** 샌드위치 모델 컨트롤러 */
   const sandWichController = useSandWichModel();
+  /** 현재 선택된 모델 이름 */
   const currentModelNm = useRecoilValue(currentModelName);
-
   /** 재료 크기 상수 */
   const ingredientScale = 3;
   /** 재료 y 위치 */

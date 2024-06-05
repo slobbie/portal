@@ -12,6 +12,7 @@
 import { atom } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
 
+/** 샌드위치 재료 배열 */
 export const sandWichState = atom({
   key: 'sandWichState',
   default: [

@@ -10,7 +10,6 @@
 // =============================================================================
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
-import { GLTF } from 'three-stdlib';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -18,51 +17,28 @@ import {
   IShoeModelColorState,
   shoeCurrentPartsName,
   shoeModelColorState,
-} from '@src/atom/shoeModel.atom';
-import { currentModelName } from '@src/atom/model.atom';
-
-type shoeModelGLTFResult = GLTF & {
-  nodes: {
-    ['shoe']: THREE.Mesh;
-    ['shoe_1']: THREE.Mesh;
-    ['shoe_2']: THREE.Mesh;
-    ['shoe_3']: THREE.Mesh;
-    ['shoe_4']: THREE.Mesh;
-    ['shoe_5']: THREE.Mesh;
-    ['shoe_6']: THREE.Mesh;
-    ['shoe_7']: THREE.Mesh;
-  };
-  materials: {
-    ['laces']: THREE.Material;
-    ['mesh']: THREE.Material;
-    ['caps']: THREE.Material;
-    ['inner']: THREE.Material;
-    ['sole']: THREE.Material;
-    ['stripes']: THREE.Material;
-    ['band']: THREE.Material;
-    ['patch']: THREE.Material;
-  };
-};
+} from '@src/feature/shoe/atom/shoeModel.atom';
+import { currentModelName } from '@src/common/atom/model.atom';
+import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface';
 
 /**
- *
- * @param
- * @property { string } propsName 설명
+ * 신발 모델 컴포넌트
  * @returns React.JSX.Element
  */
 const ShoeModel = () => {
   const groupRef = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF('/shoe/shoe.glb') as shoeModelGLTFResult;
+  /** 신발 파츠 컬러 */
+  const shoeColorState: IShoeModelColorState =
+    useRecoilValue(shoeModelColorState);
   /** 현재 선택된 3d 모델 이름  */
   const currentModelNm = useRecoilValue(currentModelName);
+  /** 신발 모델 호버 된 파츠 */
   const [hovered, setHovered] = useState<string>('');
   /**
    * 선택한 모델 차트 이름 저장 함수
    */
   const setCurrentShoePartsNm = useSetRecoilState(shoeCurrentPartsName);
-
-  const shoeColorState: IShoeModelColorState =
-    useRecoilValue(shoeModelColorState);
 
   useFrame((state) => {
     if (groupRef.current) {

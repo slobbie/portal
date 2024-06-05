@@ -12,15 +12,14 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { BallCollider, RapierRigidBody, RigidBody } from '@react-three/rapier';
 import { useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
-import { currentModelName } from '@src/common/atom/model.atom';
+import { useRoute } from 'wouter';
 
 /**
  * 충돌 포인터 컴포넌트
  * @returns React.JSX.Element
  */
 const PointerRigidBody = () => {
-  const currentModelNm = useRecoilValue(currentModelName);
+  const [param] = useRoute('/portal/03');
 
   const ref = useRef<RapierRigidBody>(null);
 
@@ -35,13 +34,13 @@ const PointerRigidBody = () => {
   };
 
   useEffect(() => {
-    if (currentModelNm === '03') {
+    if (param) {
       window.addEventListener('mousemove', handleMouseMove);
       return () => {
         window.removeEventListener('mousemove', handleMouseMove);
       };
     }
-  }, [currentModelNm]);
+  }, [param]);
 
   useFrame(({ mouse, viewport }) => {
     vec.lerp(

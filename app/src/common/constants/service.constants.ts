@@ -1,18 +1,17 @@
 // =============================================================================
-// File    : model.atom.ts
+// File    : service.constants.ts
 // Class   :
-// Purpose : model.atom.ts
-// Date    : 2024.04
-// Author  :  JHS
+// Purpose : service.constants.ts
+// Date    : 2024.06
+// Author  : JHS
 // History :
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
-import { atom } from 'recoil';
-
-/** 현재 선택 된 모델 이름 */
-export const isCharacterMove = atom({
-  key: 'isCharacterMove',
-  default: false,
+/** 서비스에 사용되는 상수 */
+export const service = Object.freeze({
+  storage: {
+    currentModelNm: 'currentModelNm',
+  },
 });

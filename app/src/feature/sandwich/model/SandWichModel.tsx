@@ -40,7 +40,9 @@ const SandWichModel = () => {
   // 샌드위치 재료 랜더링
   const renderSandWichIngredient = useMemo(() => {
     return ingredients.map((item, index) => {
-      const isShowPrice = index > 0 && index < ingredients.length - 1;
+      /** index 가 0 보다 크고, index가 재료의 총 길이 index보다 작아야하며, 길이가 4 이상이여야함  */
+      const isShowPrice =
+        index > 0 && index < ingredients.length - 1 && ingredients.length !== 4;
       return (
         <SandWichIngredient
           key={item.id}

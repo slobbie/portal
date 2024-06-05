@@ -10,12 +10,12 @@
 // =============================================================================
 
 import { Gltf, Text3D } from '@react-three/drei';
-import { currentModelName } from '@src/common/atom/model.atom';
-import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWich.constants';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
 import { ISandWichIngredient } from '@src/feature/sandwich/interface/sandWich.interface';
 import { Suspense, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { sandWichIngredients } from '@feature/sandwich/constants/sandWichModel.constants';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
+import { useRoute } from 'wouter';
 
 /**
  * 샌드위치 재료 컴포넌트
@@ -32,7 +32,7 @@ const SandWichIngredient = ({
   /** 샌드위치 모델 컨트롤러 */
   const sandWichController = useSandWichModel();
   /** 현재 선택된 모델 이름 */
-  const currentModelNm = useRecoilValue(currentModelName);
+  const [param] = useRoute('/portal/01');
   /** 재료 크기 상수 */
   const ingredientScale = 3;
   /** 재료 y 위치 */
@@ -45,7 +45,7 @@ const SandWichIngredient = ({
 
   return (
     <group position-y={positionsY} position={[0, 0, -0.3]}>
-      {showPrice && currentModelNm === '01' && (
+      {showPrice && param && (
         <Suspense>
           <group
             position-y={-0.25}
@@ -58,7 +58,7 @@ const SandWichIngredient = ({
             }}
           >
             <Text3D
-              font={'/Poppins_Bold.json'}
+              font={model3DPath.font.poppins}
               scale={0.1}
               bevelSegments={3}
               bevelEnabled
@@ -68,7 +68,7 @@ const SandWichIngredient = ({
               ${sandWichIngredients[ingredient.name].price.toFixed(2)}
             </Text3D>
             <Text3D
-              font={'/Poppins_Bold.json'}
+              font={model3DPath.font.poppins}
               scale={0.1}
               bevelSegments={3}
               bevelEnabled

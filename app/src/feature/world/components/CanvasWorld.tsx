@@ -24,8 +24,7 @@ import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
 import TabletModel from '@src/feature/sandwich/model/TabletModel';
 import MenuScreen from '@src/feature/sandwich/components/MenuScreen';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentModelName } from '@src/common/atom/model.atom';
-import { Suspense, useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRoute } from 'wouter';
 import ShoeModel from '@src/feature/shoe/model/ShoeModel';
 import ColorPicker from '@common/components/colorPicker/ColorPicker';
@@ -38,8 +37,9 @@ import Floor from '@src/feature/world/components/Floor';
 import * as THREE from 'three';
 import { sandWichTotalPrice } from '@src/feature/sandwich/atom/sandWich.atom';
 import KeyInfo from '@src/feature/world/components/KeyInfo';
-import BallModel from '@feature/ball/components/BallModel';
+import BallModel from '@src/feature/ball/model/BallModel';
 import PointerRigidBody from '@feature/ball/components/PointerRigidBody';
+import { service } from '@src/common/constants/service.constants';
 
 /**
  *
@@ -50,12 +50,12 @@ import PointerRigidBody from '@feature/ball/components/PointerRigidBody';
 const CanvasWorld = () => {
   const [param] = useRoute('/portal/:id');
   const sandWichController = useSandWichModel();
-  const [currentModelNm, setCurrentModelNm] = useRecoilState(currentModelName);
   /** 샌드위치 총합산 가격 */
   const sandWichTotalPriceState = useRecoilValue(sandWichTotalPrice);
-
+  /** 현재 선택된 모델 이름 */
+  const [currentModelNm, setCurrentModelNm] = useState('');
   /**
-   * 선택된 신발 모델 차트 이름 저
+   * 선택된 신발 모델 파트 이름
    */
   const currentShoePartsNm = useRecoilValue(shoeCurrentPartsName);
 
@@ -63,11 +63,20 @@ const CanvasWorld = () => {
   const [shoeColorState, setShoeColorState] =
     useRecoilState(shoeModelColorState);
 
+  /** 초기 선택 모델 상태 set */
+  useEffect(() => {
+    const currentModelNm = localStorage.getItem(
+      service.storage.currentModelNm
+    ) as string;
+    setCurrentModelNm(currentModelNm);
+  }, [param]);
+
   useEffect(() => {
     if (!param) {
+      localStorage.setItem(service.storage.currentModelNm, '');
       setCurrentModelNm('');
     }
-  }, [param, setCurrentModelNm]);
+  }, [param]);
 
   /** 샌드위치 메이커 스크린 노출 여부  */
   const isMenuScreen = useMemo(() => {
@@ -130,7 +139,6 @@ const CanvasWorld = () => {
   return (
     <KeyboardControls map={keyMap}>
       <Canvas
-        id='mainCanvas'
         shadows
         camera={{ fov: 75, position: [0, 1.5, 4] }}
         eventSource={document.getElementById('root')!}
@@ -242,7 +250,7 @@ const CanvasWorld = () => {
           </Physics>
         </Suspense>
       </Canvas>
-      <KeyInfo />
+      {!param && <KeyInfo />}
     </KeyboardControls>
   );
 };

@@ -19,11 +19,11 @@ import {
 } from '@react-three/drei';
 import { useRoute, useLocation } from 'wouter';
 import { easing, geometry } from 'maath';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { currentModelName } from '@src/common/atom/model.atom';
+import { useRecoilState } from 'recoil';
 import { RigidBody } from '@react-three/rapier';
 import { isPortal } from '@src/common/atom/portal.atom';
 import { IPortalFrame } from '@src/feature/world/interface/portalFrame.interface';
+import { service } from '@src/common/constants/service.constants';
 
 extend(geometry);
 
@@ -54,8 +54,6 @@ const PortalFrame = ({
   const [, setLocation] = useLocation();
   const [, params] = useRoute('/portal/:id');
   const [frameHovered, setFrameHovered] = useState(false);
-  /** 현재 선택된 모델 */
-  const setCurrentModelName = useSetRecoilState(currentModelName);
   /** 포털 여부 상태 */
   const [isPortalToggle, setIsPortalToggle] = useRecoilState(isPortal);
   /** 현재 프레임 */
@@ -75,7 +73,7 @@ const PortalFrame = ({
   /** 라우트 이벤트 핸들러 */
   const onRouter = () => {
     // e.stopPropagation();
-    setCurrentModelName(id);
+    localStorage.setItem(service.storage.currentModelNm, id);
     setLocation('/portal/' + id);
     setIsPortalToggle(true);
   };

@@ -10,7 +10,7 @@
 // =============================================================================
 
 import ButtonCommon from '@src/common/components/button/ButtonCommon';
-import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWich.constants';
+import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWichModel.constants';
 import { RecoilRoot } from 'recoil';
 import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 import { useMemo } from 'react';

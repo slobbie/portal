@@ -17,6 +17,7 @@ import {
   TCharacterGLTFResult,
 } from '@feature/world/interface/character.interface';
 import { keyControls } from '@feature/world/interface/keyboardControls.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
 /**
  * 캐릭터 컴포넌트
@@ -41,7 +42,7 @@ const Character = (groupProps: ICharacter) => {
   );
 
   const { nodes, materials, animations } = useGLTF(
-    '/people/people.glb'
+    model3DPath.character
   ) as TCharacterGLTFResult;
 
   /** 현재 실행 되는 애니메이션 이름 상태 */
@@ -90,6 +91,6 @@ const Character = (groupProps: ICharacter) => {
   );
 };
 
-useGLTF.preload('/people/people.glb');
+useGLTF.preload(model3DPath.character);
 
 export default Character;

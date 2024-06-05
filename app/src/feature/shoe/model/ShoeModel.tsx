@@ -18,8 +18,9 @@ import {
   shoeCurrentPartsName,
   shoeModelColorState,
 } from '@src/feature/shoe/atom/shoeModel.atom';
-import { currentModelName } from '@src/common/atom/model.atom';
 import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
+import { useRoute } from 'wouter';
 
 /**
  * 신발 모델 컴포넌트
@@ -27,12 +28,12 @@ import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface
  */
 const ShoeModel = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const { nodes, materials } = useGLTF('/shoe/shoe.glb') as shoeModelGLTFResult;
+  const { nodes, materials } = useGLTF(model3DPath.shoe) as shoeModelGLTFResult;
   /** 신발 파츠 컬러 */
   const shoeColorState: IShoeModelColorState =
     useRecoilValue(shoeModelColorState);
-  /** 현재 선택된 3d 모델 이름  */
-  const currentModelNm = useRecoilValue(currentModelName);
+  /** 현재 주소 경로  */
+  const [isParam] = useRoute('/portal/02');
   /** 신발 모델 호버 된 파츠 */
   const [hovered, setHovered] = useState<string>('');
   /**
@@ -85,15 +86,10 @@ const ShoeModel = () => {
     }
   };
 
-  /** 현재 선택된 모델 여부 */
-  const isCurrentModel = currentModelNm === '02';
-
   /** 포지션 상수 */
   const position = useMemo(() => {
-    return isCurrentModel
-      ? new THREE.Vector3(0, 0, 0)
-      : new THREE.Vector3(0.1, 0, -4);
-  }, [isCurrentModel]);
+    return isParam ? new THREE.Vector3(0, 0, 0) : new THREE.Vector3(0.1, 0, -4);
+  }, [isParam]);
 
   return (
     <group
@@ -172,5 +168,7 @@ const ShoeModel = () => {
     </group>
   );
 };
+
+useGLTF.preload(model3DPath.shoe);
 
 export default ShoeModel;

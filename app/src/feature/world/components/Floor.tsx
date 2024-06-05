@@ -12,7 +12,7 @@ import * as THREE from 'three';
 import { Box, useKeyboardControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef } from 'react';
 import { RapierRigidBody, RigidBody } from '@react-three/rapier';
-import Character from '@src/feature/world/components/Character';
+import Character from '@src/feature/world/model/Character';
 import { useFrame } from '@react-three/fiber';
 import { useRecoilValue } from 'recoil';
 import { isCharacterMove } from '@src/common/atom/model.atom';

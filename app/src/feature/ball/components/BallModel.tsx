@@ -19,12 +19,7 @@ import {
 } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import { Gltf } from '@react-three/drei';
-
-interface IEmojiModel {
-  scale: number;
-  vec?: THREE.Vector3;
-  r?: typeof THREE.MathUtils.randFloatSpread;
-}
+import { IBallModel } from '@feature/ball/interface/ballModel.interface';
 
 /**
  * 볼 모델
@@ -33,7 +28,7 @@ interface IEmojiModel {
  * @property { THREE.MathUtils.randFloatSpread } scale object 크기
  * @returns React.JSX.Element
  */
-const BallModel = ({ vec = new THREE.Vector3(), scale }: IEmojiModel) => {
+const BallModel = ({ vec = new THREE.Vector3(), scale }: IBallModel) => {
   const ballModelRigidBodyRef = useRef<RapierRigidBody>(null);
   const randFloatSpread = THREE.MathUtils.randFloatSpread;
 

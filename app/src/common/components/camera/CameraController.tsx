@@ -26,7 +26,7 @@ const CameraController = ({
   focus = new THREE.Vector3(0, 0, 0),
 }) => {
   const { scene } = useThree();
-  const [, params] = useRoute('/item/:id');
+  const [, params] = useRoute('/portal/:id');
   const cameraControlsRef = useRef<CameraControls>(null);
   const maxPolarAngle = Math.PI / 2;
 

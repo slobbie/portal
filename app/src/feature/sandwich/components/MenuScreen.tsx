@@ -14,10 +14,7 @@ import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWich.co
 import { RecoilRoot } from 'recoil';
 import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 import { useMemo } from 'react';
-
-interface IMenuScreen {
-  addMenuCallback: (name: string, pPrice: number) => void;
-}
+import { IMenuScreen } from '@feature/sandwich/interface/menuScreen.interface';
 
 /**
  * 샌드위치 메뉴 화면 컴포넌트
@@ -29,6 +26,7 @@ const MenuScreen = ({ addMenuCallback }: IMenuScreen) => {
   const filerBread = Object.keys(sandWichIngredients).filter((item) => {
     return item !== 'bread';
   });
+
   // 메뉴 버튼 랜더링
   const renderMenuButton = useMemo(() => {
     return filerBread.map((item) => {

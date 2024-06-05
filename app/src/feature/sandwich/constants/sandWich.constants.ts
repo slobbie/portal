@@ -9,22 +9,7 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
-import { ISandWichIngredients } from '@src/feature/sandwich/interface/sandWich.interface';
-
-interface ISandWichIngredientsObj {
-  [key: string]: ISandWichIngredients;
-  bread: ISandWichIngredients;
-  lettuce: ISandWichIngredients;
-  mushroom: ISandWichIngredients;
-  tomato: ISandWichIngredients;
-  cheese: ISandWichIngredients;
-  chicken: ISandWichIngredients;
-  sausage: ISandWichIngredients;
-  salami: ISandWichIngredients;
-  bacon: ISandWichIngredients;
-  patty: ISandWichIngredients;
-  ketchup: ISandWichIngredients;
-}
+import { ISandWichIngredientsObj } from '@feature/sandwich/interface/sandWich.interface';
 
 /**
  * 샌드 위치 재료 배열

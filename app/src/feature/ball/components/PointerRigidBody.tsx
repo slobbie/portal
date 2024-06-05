@@ -13,21 +13,21 @@ import { useFrame } from '@react-three/fiber';
 import { BallCollider, RapierRigidBody, RigidBody } from '@react-three/rapier';
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { currentModelName } from '@src/atom/model.atom';
+import { currentModelName } from '@src/common/atom/model.atom';
 
 /**
- *
- * @param
- * @property { string } propsName 설명
+ * 충돌 포인터 컴포넌트
  * @returns React.JSX.Element
  */
-const PointerRigidBody = ({ vec = new THREE.Vector3() }) => {
+const PointerRigidBody = () => {
   const currentModelNm = useRecoilValue(currentModelName);
 
   const ref = useRef<RapierRigidBody>(null);
 
   const x = useRef(0);
   const y = useRef(0);
+
+  const vec = new THREE.Vector3();
 
   const handleMouseMove = (e: MouseEvent) => {
     x.current = e.clientX;

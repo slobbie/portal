@@ -11,6 +11,7 @@
 
 import { RecoilState, atom } from 'recoil';
 
+/** 신발 모델 파츠  인터페이스 */
 export interface IShoeModelColorState {
   [key: string]: string;
   laces: string;

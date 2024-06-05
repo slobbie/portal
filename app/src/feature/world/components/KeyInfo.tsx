@@ -14,22 +14,13 @@ import Arrow from '@assets/icon/arrow.png';
 import { useKeyboardControls } from '@react-three/drei';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { isCharacterMove } from '@src/atom/model.atom';
+import { isCharacterMove } from '@src/common/atom/model.atom';
 import Space from '@src/common/components/space/Space';
-
-enum keyControls {
-  forward = 'forward',
-  back = 'backward',
-  left = 'left',
-  right = 'right',
-  jump = 'jump',
-}
-
-type TDirection = 'forward' | 'backward' | 'left' | 'right' | 'jump';
+import { keyControls } from '@feature/world/interface/keyboardControls.interface';
+import { TDirection } from '@feature/world/interface/keyInfo.interface';
 
 /**
- *
- * @param
+ * 키보드 모양 버튼 그룹 컴포넌트
  * @property { string } propsName 설명
  * @returns React.JSX.Element
  */
@@ -47,6 +38,7 @@ const KeyInfo = () => {
     (state) => state.backward
   );
   const [, get] = useKeyboardControls<keyControls>();
+
   /** 캐릭터 클릭 움직임 상태 */
   const [isMovement, setIsMovement] = useRecoilState(isCharacterMove);
 

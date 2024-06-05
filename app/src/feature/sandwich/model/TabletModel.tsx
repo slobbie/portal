@@ -11,31 +11,16 @@
 import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { useRef } from 'react';
-import { GLTF } from 'three-stdlib';
 import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
-
-type TTabletModelGLTFResult = GLTF & {
-  nodes: {
-    ['Cube008']: THREE.Mesh;
-    ['Cube008_1']: THREE.Mesh;
-    ['Cube008_2']: THREE.Mesh;
-  };
-  materials: {
-    ['matte.001']: THREE.Material;
-    ['aluminium']: THREE.Material;
-    ['FLOOR']: THREE.Material;
-  };
-};
-
-interface ITabletModel {
-  children: React.ReactNode;
-  groupProps: JSX.IntrinsicElements['group'];
-}
+import {
+  ITabletModel,
+  TTabletModelGLTFResult,
+} from '@feature/sandwich/interface/tabletModel.interface';
 
 /**
- *
- * @param
- * @property { string } propsName 설명
+ * 테블릿 모델 인터페이스
+ * @property { string } children 설명
+ * @property { string } groupProps there js group  내재 props
  * @returns React.JSX.Element
  */
 const TabletModel = ({ children, groupProps }: ITabletModel) => {
@@ -46,10 +31,7 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
 
   return (
     <group ref={group} {...groupProps} dispose={null}>
-      <group
-        // rotation-x={-0.425}
-        position={[0, -0.04, 0.41]}
-      >
+      <group position={[0, -0.04, 0.41]}>
         <group position={[0, 2.96, -0.13]} rotation={[Math.PI / 2, 0, 0]}>
           <mesh
             material={materials.aluminium}

@@ -11,17 +11,15 @@
 import { useLocation, useRoute } from 'wouter';
 import * as Styles from '@feature/infoScreen/styles/infoScreen.style';
 import { useSetRecoilState } from 'recoil';
-import { isPortal } from '@src/atom/portal.atom';
+import { isPortal } from '@src/common/atom/portal.atom';
 import logoIcon from '@assets/icon/logo.png';
 
 /**
- *
- * @param
- * @property { string } propsName 설명
+ * 화면 설명 컴포넌트
  * @returns React.JSX.Element
  */
 const InfoScreen = () => {
-  const [params] = useRoute('/item/:id');
+  const [params] = useRoute('/portal/:id');
   const [, setLocation] = useLocation();
   /** 포탈 상태 set 함수  */
   const setPortal = useSetRecoilState(isPortal);

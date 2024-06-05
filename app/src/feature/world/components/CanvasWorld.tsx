@@ -38,7 +38,7 @@ import Floor from '@src/feature/world/components/Floor';
 import * as THREE from 'three';
 import { sandWichTotalPrice } from '@src/feature/sandwich/atom/sandWich.atom';
 import KeyInfo from '@src/feature/world/components/KeyInfo';
-import BallModel from '@feature/ball/components/BallModel';
+import BallModel from '@src/feature/ball/model/BallModel';
 import PointerRigidBody from '@feature/ball/components/PointerRigidBody';
 
 /**
@@ -130,7 +130,6 @@ const CanvasWorld = () => {
   return (
     <KeyboardControls map={keyMap}>
       <Canvas
-        id='mainCanvas'
         shadows
         camera={{ fov: 75, position: [0, 1.5, 4] }}
         eventSource={document.getElementById('root')!}
@@ -242,7 +241,7 @@ const CanvasWorld = () => {
           </Physics>
         </Suspense>
       </Canvas>
-      <KeyInfo />
+      {!param && <KeyInfo />}
     </KeyboardControls>
   );
 };

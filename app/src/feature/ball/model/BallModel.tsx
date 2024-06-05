@@ -18,8 +18,9 @@ import {
   RigidBody,
 } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
-import { Gltf } from '@react-three/drei';
+import { Gltf, useGLTF } from '@react-three/drei';
 import { IBallModel } from '@feature/ball/interface/ballModel.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
 /**
  * 볼 모델
@@ -69,10 +70,12 @@ const BallModel = ({ vec = new THREE.Vector3(), scale }: IBallModel) => {
         args={[0.15 * scale, 0.275 * scale]}
       />
       <Suspense>
-        <Gltf castShadow receiveShadow src={'/ball/voltorb.glb'} scale={40} />
+        <Gltf castShadow receiveShadow src={model3DPath.ball} scale={40} />
       </Suspense>
     </RigidBody>
   );
 };
+
+useGLTF.preload(model3DPath.ball);
 
 export default BallModel;

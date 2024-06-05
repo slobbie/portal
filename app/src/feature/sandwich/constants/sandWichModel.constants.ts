@@ -10,63 +10,65 @@
 // =============================================================================
 
 import { ISandWichIngredientsObj } from '@feature/sandwich/interface/sandWich.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
+const modelPath = model3DPath.sandwich;
 /**
- * 샌드 위치 재료 배열
+ * 샌드 위치 재료 경로 배열
  */
 export const sandWichIngredients: ISandWichIngredientsObj = {
   bread: {
-    src: '/sandWichModel/Bread_Slice_Bread_0.glb',
+    src: modelPath.bread,
     price: 0.5,
     icon: '🍞',
   },
   lettuce: {
-    src: '/sandWichModel/Lettuce_Slice_Lettuce_0.glb',
+    src: modelPath.lettuce,
     price: 0.5,
     icon: '🥬',
   },
   mushroom: {
-    src: '/sandWichModel/Mushroom_Slice_Mushroom_0.glb',
+    src: modelPath.mushroom,
     price: 1,
     icon: '🍄',
   },
   tomato: {
-    src: '/sandWichModel/Tomato_Slice_Tomato_0.glb',
+    src: modelPath.tomato,
     price: 0.5,
     icon: '🍅',
   },
   cheese: {
-    src: '/sandWichModel/Cheese_Slice_Cheese_0.glb',
+    src: modelPath.cheese,
     price: 1,
     icon: '🧀',
   },
   chicken: {
-    src: '/sandWichModel/Chicken_Slice_Chicken_0.glb',
+    src: modelPath.chicken,
     price: 2,
     icon: '🍗',
   },
   sausage: {
-    src: '/sandWichModel/Sausage_Slice_Sausage_0.glb',
+    src: modelPath.sausage,
     price: 1.5,
     icon: '🌭',
   },
   salami: {
-    src: '/sandWichModel/Salami_Slice_Salami_0.glb',
+    src: modelPath.salami,
     price: 1.5,
     icon: '🍖',
   },
   bacon: {
-    src: '/sandWichModel/Bacon_Slice_Bacon_0.glb',
+    src: modelPath.bacon,
     price: 1.5,
     icon: '🥓',
   },
   patty: {
-    src: '/sandWichModel/Patty_Slice_Patty_0.glb',
+    src: modelPath.patty,
     price: 2,
     icon: '🥩',
   },
   ketchup: {
-    src: '/sandWichModel/Ketchup_Slice_Ketchup_0.glb',
+    src: modelPath.ketchup,
     price: 2,
     icon: '🥫',
   },

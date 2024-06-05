@@ -16,6 +16,7 @@ import {
   ITabletModel,
   TTabletModelGLTFResult,
 } from '@feature/sandwich/interface/tabletModel.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
 /**
  * 테블릿 모델 인터페이스
@@ -26,7 +27,7 @@ import {
 const TabletModel = ({ children, groupProps }: ITabletModel) => {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF(
-    '/mac-draco.glb'
+    model3DPath.mac
   ) as TTabletModelGLTFResult;
 
   return (
@@ -72,5 +73,7 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
     </group>
   );
 };
+
+useGLTF.preload(model3DPath.mac);
 
 export default TabletModel;

@@ -54,7 +54,8 @@ const KeyInfo = () => {
     <div css={keyStyles.KeyBoardInfoContent}>
       <div
         css={keyStyles.KeyBoardItem}
-        onClick={() => characterMoveController('forward')}
+        onMouseDown={() => characterMoveController('forward')}
+        onMouseUp={() => characterMoveController('forward')}
         onTouchStart={() => characterMoveController('forward')}
         onTouchEnd={() => characterMoveController('forward')}
       >
@@ -64,7 +65,8 @@ const KeyInfo = () => {
       <div css={keyStyles.KeyBoardBottomBox}>
         <div
           css={keyStyles.KeyBoardItem}
-          onClick={() => characterMoveController('left')}
+          onMouseDown={() => characterMoveController('left')}
+          onMouseUp={() => characterMoveController('left')}
           onTouchStart={() => characterMoveController('left')}
           onTouchEnd={() => characterMoveController('left')}
         >
@@ -73,7 +75,8 @@ const KeyInfo = () => {
         <Space right={5} />
         <div
           css={keyStyles.KeyBoardItem}
-          onClick={() => characterMoveController('backward')}
+          onMouseDown={() => characterMoveController('backward')}
+          onMouseUp={() => characterMoveController('backward')}
           onTouchStart={() => characterMoveController('backward')}
           onTouchEnd={() => characterMoveController('backward')}
         >
@@ -82,7 +85,8 @@ const KeyInfo = () => {
         <Space right={5} />
         <div
           css={keyStyles.KeyBoardItem}
-          onClick={() => characterMoveController('right')}
+          onMouseDown={() => characterMoveController('right')}
+          onMouseUp={() => characterMoveController('right')}
           onTouchStart={() => characterMoveController('right')}
           onTouchEnd={() => characterMoveController('right')}
         >

@@ -20,6 +20,7 @@ import {
 } from '@src/feature/shoe/atom/shoeModel.atom';
 import { currentModelName } from '@src/common/atom/model.atom';
 import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface';
+import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
 /**
  * 신발 모델 컴포넌트
@@ -27,7 +28,7 @@ import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface
  */
 const ShoeModel = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const { nodes, materials } = useGLTF('/shoe/shoe.glb') as shoeModelGLTFResult;
+  const { nodes, materials } = useGLTF(model3DPath.shoe) as shoeModelGLTFResult;
   /** 신발 파츠 컬러 */
   const shoeColorState: IShoeModelColorState =
     useRecoilValue(shoeModelColorState);
@@ -172,5 +173,7 @@ const ShoeModel = () => {
     </group>
   );
 };
+
+useGLTF.preload(model3DPath.shoe);
 
 export default ShoeModel;

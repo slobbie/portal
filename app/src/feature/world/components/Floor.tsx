@@ -8,9 +8,10 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
-import { Box, useKeyboardControls } from '@react-three/drei';
+
 import { useEffect, useMemo, useRef } from 'react';
+import { Group } from 'three';
+import { Box, useKeyboardControls } from '@react-three/drei';
 import { RapierRigidBody, RigidBody } from '@react-three/rapier';
 import Character from '@src/feature/world/model/Character';
 import { useFrame } from '@react-three/fiber';
@@ -39,7 +40,7 @@ const Floor = () => {
   );
 
   const rigidBodyRef = useRef<RapierRigidBody>(null);
-  const characterRef = useRef<THREE.Group>(null);
+  const characterRef = useRef<Group>(null);
 
   /** 움직임 정도 상수  */
   const move = 0.028;

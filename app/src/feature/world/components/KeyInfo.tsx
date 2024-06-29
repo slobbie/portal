@@ -8,11 +8,10 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-
+import { useEffect } from 'react';
 import * as keyStyles from '@feature/infoScreen/styles/infoScreen.style';
 import Arrow from '@assets/icon/arrow.png';
 import { useKeyboardControls } from '@react-three/drei';
-import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isCharacterMove } from '@src/common/atom/model.atom';
 import Space from '@src/common/components/space/Space';
@@ -59,7 +58,11 @@ const KeyInfo = () => {
         onTouchStart={() => characterMoveController('forward')}
         onTouchEnd={() => characterMoveController('forward')}
       >
-        <img src={Arrow} css={keyStyles.ArrowIcon('180deg', forwardPressed)} />
+        <img
+          src={Arrow}
+          css={keyStyles.ArrowIcon('180deg', forwardPressed)}
+          loading='lazy'
+        />
       </div>
       <Space bottom={5} />
       <div css={keyStyles.KeyBoardBottomBox}>
@@ -70,7 +73,11 @@ const KeyInfo = () => {
           onTouchStart={() => characterMoveController('left')}
           onTouchEnd={() => characterMoveController('left')}
         >
-          <img src={Arrow} css={keyStyles.ArrowIcon('90deg', leftPressed)} />
+          <img
+            src={Arrow}
+            css={keyStyles.ArrowIcon('90deg', leftPressed)}
+            loading='lazy'
+          />
         </div>
         <Space right={5} />
         <div
@@ -80,7 +87,11 @@ const KeyInfo = () => {
           onTouchStart={() => characterMoveController('backward')}
           onTouchEnd={() => characterMoveController('backward')}
         >
-          <img src={Arrow} css={keyStyles.ArrowIcon('0deg', backPressed)} />
+          <img
+            src={Arrow}
+            css={keyStyles.ArrowIcon('0deg', backPressed)}
+            loading='lazy'
+          />
         </div>
         <Space right={5} />
         <div
@@ -90,7 +101,11 @@ const KeyInfo = () => {
           onTouchStart={() => characterMoveController('right')}
           onTouchEnd={() => characterMoveController('right')}
         >
-          <img src={Arrow} css={keyStyles.ArrowIcon('270deg', rightPressed)} />
+          <img
+            src={Arrow}
+            css={keyStyles.ArrowIcon('270deg', rightPressed)}
+            loading='lazy'
+          />
         </div>
       </div>
     </div>

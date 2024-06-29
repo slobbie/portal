@@ -10,7 +10,7 @@
 // =============================================================================
 
 import { Suspense, useRef } from 'react';
-import * as THREE from 'three';
+import { Vector3, MathUtils } from 'three';
 import {
   BallCollider,
   CylinderCollider,
@@ -29,9 +29,9 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  * @property { THREE.MathUtils.randFloatSpread } scale object 크기
  * @returns React.JSX.Element
  */
-const BallModel = ({ vec = new THREE.Vector3(), scale }: IBallModel) => {
+const BallModel = ({ vec = new Vector3(), scale }: IBallModel) => {
   const ballModelRigidBodyRef = useRef<RapierRigidBody>(null);
-  const randFloatSpread = THREE.MathUtils.randFloatSpread;
+  const randFloatSpread = MathUtils.randFloatSpread;
 
   useFrame((_state, delta) => {
     if (ballModelRigidBodyRef.current) {

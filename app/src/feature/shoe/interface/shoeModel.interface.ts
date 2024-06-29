@@ -9,28 +9,28 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 import { GLTF } from 'three-stdlib';
-import * as THREE from 'three';
+import { Mesh, Material } from 'three';
 
 /** 신발 모델 인터페이스 */
 export type shoeModelGLTFResult = GLTF & {
   nodes: {
-    ['shoe']: THREE.Mesh;
-    ['shoe_1']: THREE.Mesh;
-    ['shoe_2']: THREE.Mesh;
-    ['shoe_3']: THREE.Mesh;
-    ['shoe_4']: THREE.Mesh;
-    ['shoe_5']: THREE.Mesh;
-    ['shoe_6']: THREE.Mesh;
-    ['shoe_7']: THREE.Mesh;
+    ['shoe']: Mesh;
+    ['shoe_1']: Mesh;
+    ['shoe_2']: Mesh;
+    ['shoe_3']: Mesh;
+    ['shoe_4']: Mesh;
+    ['shoe_5']: Mesh;
+    ['shoe_6']: Mesh;
+    ['shoe_7']: Mesh;
   };
   materials: {
-    ['laces']: THREE.Material;
-    ['mesh']: THREE.Material;
-    ['caps']: THREE.Material;
-    ['inner']: THREE.Material;
-    ['sole']: THREE.Material;
-    ['stripes']: THREE.Material;
-    ['band']: THREE.Material;
-    ['patch']: THREE.Material;
+    ['laces']: Material;
+    ['mesh']: Material;
+    ['caps']: Material;
+    ['inner']: Material;
+    ['sole']: Material;
+    ['stripes']: Material;
+    ['band']: Material;
+    ['patch']: Material;
   };
 };

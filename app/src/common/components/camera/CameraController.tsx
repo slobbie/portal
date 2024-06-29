@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 import { CameraControls } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { useRoute } from 'wouter';
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 
 /**
  * 카메라 컨트롤러
@@ -22,8 +22,8 @@ import * as THREE from 'three';
  */
 const CameraController = ({
   zPosition = 3,
-  position = new THREE.Vector3(0, 0, 2),
-  focus = new THREE.Vector3(0, 0, 0),
+  position = new Vector3(0, 0, 2),
+  focus = new Vector3(0, 0, 0),
 }) => {
   const { scene } = useThree();
   const [, params] = useRoute('/portal/:id');

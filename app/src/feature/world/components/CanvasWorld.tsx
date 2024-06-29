@@ -9,6 +9,7 @@
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
 
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import '@src/App.css';
 import {
@@ -19,14 +20,11 @@ import {
 } from '@react-three/drei';
 import PortalFrame from '@src/feature/world/components/PortalFrame';
 import CameraController from '@src/common/components/camera/CameraController';
-import SandWichModel from '@src/feature/sandwich/model/SandWichModel';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
 import TabletModel from '@src/feature/sandwich/model/TabletModel';
 import MenuScreen from '@src/feature/sandwich/components/MenuScreen';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRoute } from 'wouter';
-import ShoeModel from '@src/feature/shoe/model/ShoeModel';
 import ColorPicker from '@common/components/colorPicker/ColorPicker';
 import {
   shoeCurrentPartsName,
@@ -34,12 +32,17 @@ import {
 } from '@src/feature/shoe/atom/shoeModel.atom';
 import { Physics } from '@react-three/rapier';
 import Floor from '@src/feature/world/components/Floor';
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 import { sandWichTotalPrice } from '@src/feature/sandwich/atom/sandWich.atom';
 import KeyInfo from '@src/feature/world/components/KeyInfo';
-import BallModel from '@src/feature/ball/model/BallModel';
 import PointerRigidBody from '@feature/ball/components/PointerRigidBody';
 import { service } from '@src/common/constants/service.constants';
+
+const ShoeModel = lazy(() => import('@src/feature/shoe/model/ShoeModel'));
+const BallModel = lazy(() => import('@src/feature/ball/model/BallModel'));
+const SandWichModel = lazy(
+  () => import('@src/feature/sandwich/model/SandWichModel')
+);
 
 /**
  *
@@ -197,7 +200,9 @@ const CanvasWorld = () => {
                 rotation: [0, 0, 0],
               }}
             >
-              <ShoeModel />
+              <Suspense>
+                <ShoeModel />
+              </Suspense>
               {isColorPicker && (
                 <Html position={[1.5, 1.5, 0]}>
                   <ColorPicker
@@ -237,15 +242,17 @@ const CanvasWorld = () => {
               <directionalLight position={[0, 5, -4]} intensity={4} />
               <Physics gravity={[0, 0, 0]} interpolate>
                 <PointerRigidBody />
-                {balls.map((props, i) => (
-                  <BallModel key={i} {...props} />
-                ))}
+                <Suspense>
+                  {balls.map((props, i) => (
+                    <BallModel key={i} {...props} />
+                  ))}
+                </Suspense>
               </Physics>
             </PortalFrame>
             <Floor />
             <CameraController
               zPosition={wordCameraPosition(currentModelNm)}
-              position={new THREE.Vector3(0, 0, 3.6)}
+              position={new Vector3(0, 0, 3.6)}
             />
           </Physics>
         </Suspense>

@@ -8,20 +8,20 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
+import { Mesh, Material } from 'three';
 import { GLTF } from 'three-stdlib';
 
 /** 테블릿 모델 3d 인터페이스 */
 export type TTabletModelGLTFResult = GLTF & {
   nodes: {
-    ['Cube008']: THREE.Mesh;
-    ['Cube008_1']: THREE.Mesh;
-    ['Cube008_2']: THREE.Mesh;
+    ['Cube008']: Mesh;
+    ['Cube008_1']: Mesh;
+    ['Cube008_2']: Mesh;
   };
   materials: {
-    ['matte.001']: THREE.Material;
-    ['aluminium']: THREE.Material;
-    ['FLOOR']: THREE.Material;
+    ['matte.001']: Material;
+    ['aluminium']: Material;
+    ['FLOOR']: Material;
   };
 };
 

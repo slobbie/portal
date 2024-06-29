@@ -8,7 +8,7 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
+import { DoubleSide } from 'three';
 import { useRef, useState } from 'react';
 import { useFrame, extend } from '@react-three/fiber';
 import {
@@ -128,7 +128,7 @@ const PortalFrame = ({
           <MeshPortalMaterial
             ref={portalRef}
             events={params?.id === id}
-            side={THREE.DoubleSide}
+            side={DoubleSide}
             transparent
           >
             <color attach='background' args={[bg]} />

@@ -8,9 +8,9 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
-import { Html, useGLTF } from '@react-three/drei';
 import { useRef } from 'react';
+import { Group, MathUtils } from 'three';
+import { Html, useGLTF } from '@react-three/drei';
 import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 import {
   ITabletModel,
@@ -25,7 +25,7 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  * @returns React.JSX.Element
  */
 const TabletModel = ({ children, groupProps }: ITabletModel) => {
-  const group = useRef<THREE.Group>(null);
+  const group = useRef<Group>(null);
   const { nodes, materials } = useGLTF(
     model3DPath.mac
   ) as TTabletModelGLTFResult;
@@ -53,9 +53,9 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
                 overflowY: 'auto',
                 padding: 0,
               }}
-              rotation-x={THREE.MathUtils.degToRad(-90)}
-              rotation-y={THREE.MathUtils.degToRad(0)}
-              rotation-z={THREE.MathUtils.degToRad(0)}
+              rotation-x={MathUtils.degToRad(-90)}
+              rotation-y={MathUtils.degToRad(0)}
+              rotation-z={MathUtils.degToRad(0)}
               position={[-4.3, 0, 0]}
               transform
             >

@@ -8,7 +8,7 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { BallCollider, RapierRigidBody, RigidBody } from '@react-three/rapier';
 import { useEffect, useRef } from 'react';
@@ -26,7 +26,7 @@ const PointerRigidBody = () => {
   const x = useRef(0);
   const y = useRef(0);
 
-  const vec = new THREE.Vector3();
+  const vec = new Vector3();
 
   const handleMouseMove = (e: MouseEvent) => {
     x.current = e.clientX;

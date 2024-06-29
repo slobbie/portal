@@ -8,7 +8,7 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
+import { Group, Vector3 } from 'three';
 import { useGLTF } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
@@ -27,7 +27,7 @@ import { useRoute } from 'wouter';
  * @returns React.JSX.Element
  */
 const ShoeModel = () => {
-  const groupRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<Group>(null);
   const { nodes, materials } = useGLTF(model3DPath.shoe) as shoeModelGLTFResult;
   /** 신발 파츠 컬러 */
   const shoeColorState: IShoeModelColorState =
@@ -88,7 +88,7 @@ const ShoeModel = () => {
 
   /** 포지션 상수 */
   const position = useMemo(() => {
-    return isParam ? new THREE.Vector3(0, 0, 0) : new THREE.Vector3(0.1, 0, -4);
+    return isParam ? new Vector3(0, 0, 0) : new Vector3(0.1, 0, -4);
   }, [isParam]);
 
   return (

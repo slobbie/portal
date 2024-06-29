@@ -8,7 +8,7 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import * as THREE from 'three';
+import { Group } from 'three';
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import animationConfig from '@src/common/constants/animation.constants';
@@ -27,7 +27,7 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  */
 const Character = (groupProps: ICharacter) => {
   /** 캐릭터 ref */
-  const characterRef = useRef<THREE.Group>(null);
+  const characterRef = useRef<Group>(null);
   /** 오른쪽 화살표 키 */
   const rightPressed = useKeyboardControls<keyControls>((state) => state.right);
   /** 왼쪽 화살표 키 */

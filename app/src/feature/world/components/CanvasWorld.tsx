@@ -11,7 +11,6 @@
 
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import '@src/App.css';
 import {
   ContactShadows,
   Html,

@@ -137,6 +137,30 @@ const resetStyle = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
+
+  #root {
+    width: 100%;
+    height: 100vh;
+  }
+
+  body,
+  root {
+    padding: 0;
+    margin: 0;
+    background-color: #f0f0f0;
+    overflow: hidden;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  .content {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 /**

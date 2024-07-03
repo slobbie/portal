@@ -41,13 +41,12 @@ export interface ISandWichIngredientsObj {
   [key: string]: ISandWichIngredients;
   bread: ISandWichIngredients;
   lettuce: ISandWichIngredients;
-  mushroom: ISandWichIngredients;
   tomato: ISandWichIngredients;
   cheese: ISandWichIngredients;
   chicken: ISandWichIngredients;
   sausage: ISandWichIngredients;
-  salami: ISandWichIngredients;
   bacon: ISandWichIngredients;
   patty: ISandWichIngredients;
   ketchup: ISandWichIngredients;
+  egg: ISandWichIngredients;
 }

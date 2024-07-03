@@ -12,9 +12,9 @@
 import { css } from '@emotion/react';
 import { theme } from '@src/common/styles/theme';
 
-const fontSizeL = css`
-  ${theme.fonts.button_L};
-`;
+// const fontSizeL = css`
+//   ${theme.fonts.button_L};
+// `;
 
 const fontSizeM = css`
   ${theme.fonts.button_M};
@@ -36,7 +36,7 @@ export const sizeSets = {
     height: '50px',
   },
   L: {
-    fontSize: fontSizeL,
+    fontSize: fontSizeM,
     width: '100%',
     height: '50px',
   },
@@ -45,15 +45,18 @@ export const sizeSets = {
 const commonStyle = () => {
   return css`
     outline: none;
-    display: inline-flex;
+    /* display: inline-flex; */
+    display: flex;
     justify-content: center;
+    flex-direction: row;
     align-items: center;
     cursor: pointer;
     font-family: inherit;
     background-color: ${theme.colors.bg_f0f0f0};
     color: ${theme.colors.text_333};
-    border: none;
+    /* border: none; */
     font-weight: 600;
+    border: 1px solid ${theme.colors.text_333};
     &:hover {
       opacity: 0.9;
     }

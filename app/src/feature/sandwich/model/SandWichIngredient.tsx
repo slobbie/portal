@@ -12,10 +12,12 @@
 import { Gltf, Text3D } from '@react-three/drei';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
 import { ISandWichIngredient } from '@src/feature/sandwich/interface/sandWich.interface';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { sandWichIngredients } from '@feature/sandwich/constants/sandWichModel.constants';
 import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 import { useRoute } from 'wouter';
+import { useRecoilValue } from 'recoil';
+import { isOrderState } from '@feature/sandwich/atom/sandWich.atom';
 
 /**
  * 샌드위치 재료 컴포넌트
@@ -29,23 +31,38 @@ const SandWichIngredient = ({
   showPrice,
   positionsY,
 }: ISandWichIngredient) => {
+  const isOrder = useRecoilValue(isOrderState);
   /** 샌드위치 모델 컨트롤러 */
   const sandWichController = useSandWichModel();
   /** 현재 선택된 모델 이름 */
   const [param] = useRoute('/portal/01');
   /** 재료 크기 상수 */
   const ingredientScale = 3;
-  /** 재료 y 위치 */
+  /** 재료 y 크기 */
   const ingredientScaleY = 5;
+  // const ingredientScaleY = 5;
+
+  const [hovered, setHovered] = useState(false);
 
   /** 재료 모델 y 포지션 */
   const modelYPosition = useMemo(() => {
     return ingredientScaleY + (ingredient.name === 'bread' ? 5 : 0);
   }, [ingredient.name]);
 
+  useEffect(() => {
+    if (hovered) {
+      document.body.style.cursor = 'pointer';
+    } else {
+      document.body.style.cursor = 'default';
+    }
+    return () => {
+      document.body.style.cursor = 'default';
+    };
+  }, [hovered]);
+
   return (
     <group position-y={positionsY} position={[0, 0, -0.3]}>
-      {showPrice && param && (
+      {showPrice && !isOrder && param && (
         <Suspense>
           <group
             position-y={-0.25}
@@ -74,6 +91,8 @@ const SandWichIngredient = ({
               bevelEnabled
               bevelThickness={0.001}
               position-x={0.82}
+              onPointerOver={() => setHovered(true)}
+              onPointerOut={() => setHovered(false)}
             >
               X
               <meshBasicMaterial color='red' />

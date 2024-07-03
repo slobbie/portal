@@ -40,3 +40,9 @@ export const sandWichTotalPrice = atom({
   key: 'sandWichTotalPrice',
   default: 4,
 });
+
+/** 샌드위치 주문 여부 */
+export const isOrderState = atom({
+  key: 'isOrderAtom',
+  default: false,
+});

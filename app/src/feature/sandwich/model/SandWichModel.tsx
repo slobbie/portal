@@ -8,34 +8,53 @@
 // =============================================================================
 // Copyright (C) 2024 JHS All rights reserved.
 // =============================================================================
-import { Vector3, Euler } from 'three';
-import { useRecoilValue } from 'recoil';
-import SandWichIngredient from '@src/feature/sandwich/components/SandWichIngredient';
-import { sandWichState } from '@src/feature/sandwich/atom/sandWich.atom';
+
 import { useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
+import SandWichIngredient from '@src/feature/sandwich/model/SandWichIngredient';
+import {
+  isOrderState,
+  sandWichState,
+} from '@src/feature/sandwich/atom/sandWich.atom';
 import { useRoute } from 'wouter';
+import { SpringValue, a, useSpring } from '@react-spring/three';
+import {
+  IGroupAnimation,
+  TVectorPosition,
+} from '@feature/sandwich/interface/modelPosition.interface';
 
 /**
  * 샌드 위치 3d 모델
  * @returns React.JSX.Element
  */
 const SandWichModel = () => {
-  const spacing = 0.2;
+  const isOrder = useRecoilValue(isOrderState);
+  /** 재료 사이 공백 */
+  const spacing = useMemo(() => {
+    return isOrder ? 0.05 : 0.2;
+  }, [isOrder]);
   // 샌드위치 재료
   const ingredients = useRecoilValue(sandWichState);
 
   /** 현재 주소 경로  */
   const [isParam] = useRoute('/portal/01');
 
-  /** 포지션 상수 */
-  const position = useMemo(() => {
-    return isParam ? new Vector3(-0.3, 0, 0) : new Vector3(-0.3, -0.26, -0.4);
-  }, [isParam]);
+  /** 주문 완료시 position */
+  const completeOrderPosition = useMemo(() => {
+    return isOrder ? [-0.1, 0, 0] : [-0.1, 0.6, 0];
+  }, [isOrder]);
 
-  /** 로테이션 상수  */
-  const rotation = useMemo(() => {
-    return isParam ? new Euler(0.19, -0.35, 0) : new Euler(0.4, -0.5, 0.1);
-  }, [isParam]);
+  /** 주문 완료시 position */
+  const completeOrderRotation = useMemo(() => {
+    return isOrder ? [0.3, 0.35, 0] : [0.5, -0.35, 0];
+  }, [isOrder]);
+
+  /** 포지션과 로테이션 상수 */
+  const { position, rotation } = useSpring<IGroupAnimation>({
+    position: isParam ? completeOrderPosition : [-0.3, -0.26, -0.4],
+    rotation: isParam ? completeOrderRotation : [0.4, -0.5, 0.1],
+    config: { tension: 170, friction: 26 },
+  });
 
   // 샌드위치 재료 랜더링
   const renderSandWichIngredient = useMemo(() => {
@@ -52,12 +71,15 @@ const SandWichModel = () => {
         />
       );
     });
-  }, [ingredients]);
+  }, [ingredients, isOrder]);
 
   return (
-    <group position={position} rotation={rotation}>
+    <a.group
+      position={position as SpringValue<TVectorPosition>}
+      rotation={rotation}
+    >
       {renderSandWichIngredient}
-    </group>
+    </a.group>
   );
 };
 

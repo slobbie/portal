@@ -27,11 +27,6 @@ export const sandWichIngredients: ISandWichIngredientsObj = {
     price: 0.5,
     icon: '🥬',
   },
-  mushroom: {
-    src: modelPath.mushroom,
-    price: 1,
-    icon: '🍄',
-  },
   tomato: {
     src: modelPath.tomato,
     price: 0.5,
@@ -52,11 +47,6 @@ export const sandWichIngredients: ISandWichIngredientsObj = {
     price: 1.5,
     icon: '🌭',
   },
-  salami: {
-    src: modelPath.salami,
-    price: 1.5,
-    icon: '🍖',
-  },
   bacon: {
     src: modelPath.bacon,
     price: 1.5,
@@ -71,5 +61,15 @@ export const sandWichIngredients: ISandWichIngredientsObj = {
     src: modelPath.ketchup,
     price: 2,
     icon: '🥫',
+  },
+  egg: {
+    src: modelPath.ketchup,
+    price: 1,
+    icon: '🍳',
+  },
+  shrimp: {
+    src: modelPath.ketchup,
+    price: 3,
+    icon: '🍤',
   },
 };

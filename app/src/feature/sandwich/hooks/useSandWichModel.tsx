@@ -10,6 +10,7 @@
 // =============================================================================
 
 import {
+  isOrderState,
   sandWichState,
   sandWichTotalPrice,
 } from '@src/feature/sandwich/atom/sandWich.atom';
@@ -27,13 +28,14 @@ import { v4 as uuidv4 } from 'uuid';
 const useSandWichModel = () => {
   const [sandWich, setSandWich] = useRecoilState(sandWichState);
   const setSandWichPrice = useSetRecoilState(sandWichTotalPrice);
+  const setIsOrder = useSetRecoilState(isOrderState);
 
   /**
    * 샌드위치 재료 추가 함수
    * @param ingredient
    */
   const addSandWichIngredient = (newIngredient: string, pPrice: number) => {
-    if (sandWich.length < 10) {
+    if (sandWich.length < 9) {
       // 샌드 위치 총 가격 추가
       setSandWichPrice((prevPrice) => {
         return prevPrice + pPrice;
@@ -101,6 +103,10 @@ const useSandWichModel = () => {
         },
       ];
     });
+    setSandWichPrice(() => {
+      return 4;
+    });
+    setIsOrder(false);
   }, [setSandWich]);
 
   return {

@@ -21,8 +21,6 @@ import {
 import PortalFrame from '@src/feature/world/components/PortalFrame';
 import CameraController from '@src/common/components/camera/CameraController';
 import useSandWichModel from '@src/feature/sandwich/hooks/useSandWichModel';
-import TabletModel from '@src/feature/sandwich/model/TabletModel';
-import MenuScreen from '@src/feature/sandwich/components/MenuScreen';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useRoute } from 'wouter';
 import ColorPicker from '@common/components/colorPicker/ColorPicker';
@@ -33,15 +31,18 @@ import {
 import { Physics } from '@react-three/rapier';
 import Floor from '@src/feature/world/components/Floor';
 import { Vector3 } from 'three';
-import { sandWichTotalPrice } from '@src/feature/sandwich/atom/sandWich.atom';
+import {
+  isOrderState,
+  sandWichTotalPrice,
+} from '@src/feature/sandwich/atom/sandWich.atom';
 import KeyInfo from '@src/feature/world/components/KeyInfo';
 import PointerRigidBody from '@feature/ball/components/PointerRigidBody';
 import { service } from '@src/common/constants/service.constants';
 
 const ShoeModel = lazy(() => import('@src/feature/shoe/model/ShoeModel'));
 const BallModel = lazy(() => import('@src/feature/ball/model/BallModel'));
-const SandWichModel = lazy(
-  () => import('@src/feature/sandwich/model/SandWichModel')
+const SandWichContent = lazy(
+  () => import('@src/feature/sandwich/components/SandWichContent')
 );
 
 /**
@@ -61,7 +62,8 @@ const CanvasWorld = () => {
    * 선택된 신발 모델 파트 이름
    */
   const currentShoePartsNm = useRecoilValue(shoeCurrentPartsName);
-
+  /** 주문 상태 */
+  const isOrder = useRecoilValue(isOrderState);
   /** 신발 모델 컬러 상태  */
   const [shoeColorState, setShoeColorState] =
     useRecoilState(shoeModelColorState);
@@ -124,13 +126,15 @@ const CanvasWorld = () => {
   const wordCameraPosition = useMemo(() => {
     return (curModelNm: string) => {
       switch (curModelNm) {
+        case '01':
+          return isOrder ? 2.8 : 3;
         case '03':
           return 13;
         default:
           return 3;
       }
     };
-  }, []);
+  }, [isOrder]);
 
   /** 볼 생성 배열  */
   const balls = useMemo(() => {
@@ -165,30 +169,10 @@ const CanvasWorld = () => {
                 rotation: [0, 0, 0],
               }}
             >
-              <SandWichModel />
-              {isMenuScreen && (
-                <>
-                  <Text
-                    color='black'
-                    fontSize={1}
-                    scale={0.2}
-                    fontWeight='bold'
-                    position={[1.7, 2, 0]}
-                  >
-                    총금액: $ {sandWichTotalPriceState}
-                  </Text>
-                  <TabletModel
-                    groupProps={{
-                      scale: 0.3,
-                      position: [2.5, -0.3, 0],
-                    }}
-                  >
-                    <MenuScreen
-                      addMenuCallback={sandWichController.addSandWichIngredient}
-                    />
-                  </TabletModel>
-                </>
-              )}
+              <SandWichContent
+                isMenuScreen={isMenuScreen}
+                sandWichTotalPriceState={sandWichTotalPriceState}
+              />
             </PortalFrame>
             <PortalFrame
               id='02'

@@ -11,7 +11,6 @@
 
 import ButtonCommon from '@src/common/components/button/ButtonCommon';
 import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWichModel.constants';
-import { RecoilRoot } from 'recoil';
 import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
 import { useMemo } from 'react';
 import { IMenuScreen } from '@feature/sandwich/interface/menuScreen.interface';
@@ -21,7 +20,7 @@ import { IMenuScreen } from '@feature/sandwich/interface/menuScreen.interface';
  * @property { (name: string, pPrice: number) => void } addMenuCallback 메뉴 추가 콜백 이벤트
  * @returns React.JSX.Element
  */
-const MenuScreen = ({ addMenuCallback }: IMenuScreen) => {
+const MenuScreen = ({ addMenuCallback, orderHandlerCallback }: IMenuScreen) => {
   // 빵을 제외한 요소 반환
   const filerBread = Object.keys(sandWichIngredients).filter((item) => {
     return item !== 'bread';
@@ -38,17 +37,27 @@ const MenuScreen = ({ addMenuCallback }: IMenuScreen) => {
               addMenuCallback(item, sandWichIngredients[item].price);
             }}
           >
-            {sandWichIngredients[item].icon}
+            $
+            {sandWichIngredients[item].price +
+              ' ' +
+              sandWichIngredients[item].icon}
           </ButtonCommon>
         </div>
       );
     });
   }, [addMenuCallback, filerBread]);
 
+  /** 주문 완료 */
+
   return (
-    <RecoilRoot>
-      <div css={Styles.buttonBox}>{renderMenuButton}</div>
-    </RecoilRoot>
+    <>
+      <div>
+        <div css={Styles.buttonBox}>{renderMenuButton}</div>
+      </div>
+      <div css={Styles.orderBtnBox}>
+        <ButtonCommon onClick={orderHandlerCallback}>주문하기</ButtonCommon>
+      </div>
+    </>
   );
 };
 

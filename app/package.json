@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.13.1",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.4",
@@ -31,6 +32,7 @@
     "react-dom": "^18.2.0",
     "recoil": "^0.7.7",
     "three": "^0.163.0",
+    "three-stdlib": "^2.30.3",
     "uuid": "^9.0.1",
     "vite-tsconfig-paths": "^4.3.2",
     "wouter": "^3.1.0"
@@ -48,5 +50,6 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-plugin-compression": "^0.5.1"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }

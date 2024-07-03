@@ -22,14 +22,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      # Merge dev branch into main
-      - name: Merge branches
-        run: |
-          git checkout main
-          git pull origin main
-          git merge dev
-          git push origin main
-
       # Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3

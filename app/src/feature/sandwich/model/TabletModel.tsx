@@ -26,6 +26,7 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  */
 const TabletModel = ({ children, groupProps }: ITabletModel) => {
   const group = useRef<Group>(null);
+
   const { nodes, materials } = useGLTF(
     model3DPath.mac
   ) as TTabletModelGLTFResult;
@@ -46,8 +47,8 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
             <Html
               className='content'
               style={{
-                width: 330,
-                height: 212,
+                width: 331,
+                height: 218,
                 background: '#f0f0f0',
                 borderRadius: 3,
                 overflowY: 'auto',
@@ -56,7 +57,7 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
               rotation-x={MathUtils.degToRad(-90)}
               rotation-y={MathUtils.degToRad(0)}
               rotation-z={MathUtils.degToRad(0)}
-              position={[-4.3, 0, 0]}
+              position={[-5.44, 0, 0]}
               transform
             >
               <div

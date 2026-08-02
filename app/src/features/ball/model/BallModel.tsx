@@ -1,16 +1,7 @@
-// =============================================================================
-// File    :  EmojiModel.tsx
-// Class   :
-// Purpose :  EmojiModel
-// Date    :  2024.06
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { Suspense, useRef } from 'react';
 import { Vector3, MathUtils } from 'three';
+import { IBallModel } from '@features/ball/interface/ballModel.interface';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
 import {
   BallCollider,
   CylinderCollider,
@@ -19,8 +10,6 @@ import {
 } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import { Gltf, useGLTF } from '@react-three/drei';
-import { IBallModel } from '@feature/ball/interface/ballModel.interface';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
 
 /**
  * 볼 모델
@@ -29,15 +18,18 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  * @property { THREE.MathUtils.randFloatSpread } scale object 크기
  * @returns React.JSX.Element
  */
-const BallModel = ({ vec = new Vector3(), scale }: IBallModel) => {
+const BallModel = ({ scale }: IBallModel) => {
   const ballModelRigidBodyRef = useRef<RapierRigidBody>(null);
   const randFloatSpread = MathUtils.randFloatSpread;
+
+  /** 프레임마다 재사용하는 작업용 벡터 (매 렌더 할당 방지) */
+  const vecRef = useRef(new Vector3());
 
   useFrame((_state, delta) => {
     if (ballModelRigidBodyRef.current) {
       delta = Math.min(0.1, delta);
       ballModelRigidBodyRef.current.applyImpulse(
-        vec
+        vecRef.current
           .copy(ballModelRigidBodyRef.current.translation())
           .normalize()
           .multiply({

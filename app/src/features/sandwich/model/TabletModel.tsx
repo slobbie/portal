@@ -1,22 +1,12 @@
-// =============================================================================
-// File    :  TabletModel.tsx
-// Class   :
-// Purpose :  TabletModel
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
 import { useRef } from 'react';
 import { Group, MathUtils } from 'three';
-import { Html, useGLTF } from '@react-three/drei';
-import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
+import * as Styles from '@features/sandwich/components/styles/menuScreen.style';
 import {
   ITabletModel,
   TTabletModelGLTFResult,
-} from '@feature/sandwich/interface/tabletModel.interface';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
+} from '@features/sandwich/interface/tabletModel.interface';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
+import { Html, useGLTF } from '@react-three/drei';
 
 /**
  * 테블릿 모델 인터페이스
@@ -29,7 +19,7 @@ const TabletModel = ({ children, groupProps }: ITabletModel) => {
 
   const { nodes, materials } = useGLTF(
     model3DPath.mac
-  ) as TTabletModelGLTFResult;
+  ) as unknown as TTabletModelGLTFResult;
 
   return (
     <group ref={group} {...groupProps} dispose={null}>

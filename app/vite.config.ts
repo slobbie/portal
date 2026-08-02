@@ -16,11 +16,11 @@ export default defineConfig({
     tsconfigPaths(),
     visualizer({
       filename: './dist/stats.html', // 생성될 파일 경로
-      open: true, // 빌드 완료 후 자동으로 브라우저에서 파일 열기
+      open: process.env.ANALYZE === 'true', // ANALYZE=true 로 빌드할 때만 브라우저에서 열기
     }),
   ],
   build: {
-    chunkSizeWarningLimit: 2100,
+    chunkSizeWarningLimit: 2600,
     rollupOptions: {
       output: {
         manualChunks: {

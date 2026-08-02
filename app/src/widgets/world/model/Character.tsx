@@ -1,23 +1,13 @@
-// =============================================================================
-// File    :  Character.tsx
-// Class   :
-// Purpose :  Character
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
 import { Group } from 'three';
-import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import animationConfig from '@src/common/constants/animation.constants';
+import animationConfig from '@shared/constants/animation.constants';
 import {
   ICharacter,
   TCharacterGLTFResult,
-} from '@feature/world/interface/character.interface';
-import { keyControls } from '@feature/world/interface/keyboardControls.interface';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
+} from '@widgets/world/interface/character.interface';
+import { keyControls } from '@widgets/world/interface/keyboardControls.interface';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
+import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei';
 
 /**
  * 캐릭터 컴포넌트
@@ -25,7 +15,7 @@ import { model3DPath } from '@src/common/constants/3dModelPath.constants';
  * @property { string } propsName 설명
  * @returns React.JSX.Element
  */
-const Character = (groupProps: ICharacter) => {
+const Character = ({ groupProps }: ICharacter) => {
   /** 캐릭터 ref */
   const characterRef = useRef<Group>(null);
   /** 오른쪽 화살표 키 */
@@ -43,7 +33,7 @@ const Character = (groupProps: ICharacter) => {
 
   const { nodes, materials, animations } = useGLTF(
     model3DPath.character
-  ) as TCharacterGLTFResult;
+  ) as unknown as TCharacterGLTFResult;
 
   /** 현재 실행 되는 애니메이션 이름 상태 */
   const [animationState, setAnimationState] = useState('Stand');

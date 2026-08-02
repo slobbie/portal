@@ -49,13 +49,7 @@ const PortalFrame = ({
 
   useFrame((_state, dt) => {
     if (portalRef.current) {
-      easing.damp(
-        portalRef.current,
-        'blend',
-        portalId === id ? 1 : 0,
-        0.2,
-        dt
-      );
+      easing.damp(portalRef.current, 'blend', portalId === id ? 1 : 0, 0.2, dt);
     }
   });
   /** 라우트 이벤트 핸들러 */

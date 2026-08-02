@@ -78,14 +78,16 @@ export const partItem = (selected: boolean) => css`
   border-radius: 14px;
   cursor: pointer;
 
-  background: ${selected
-    ? 'rgba(255, 255, 255, 0.72)'
-    : 'rgba(255, 255, 255, 0.32)'};
+  background: ${
+    selected ? 'rgba(255, 255, 255, 0.72)' : 'rgba(255, 255, 255, 0.32)'
+  };
   border: 1px solid
     ${selected ? 'rgba(10, 132, 255, 0.9)' : 'rgba(255, 255, 255, 0.45)'};
-  box-shadow: ${selected
-    ? '0 4px 14px rgba(10, 132, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
-    : 'inset 0 1px 0 rgba(255, 255, 255, 0.5)'};
+  box-shadow: ${
+    selected
+      ? '0 4px 14px rgba(10, 132, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
+      : 'inset 0 1px 0 rgba(255, 255, 255, 0.5)'
+  };
   transition:
     background 0.18s ease,
     border-color 0.18s ease,

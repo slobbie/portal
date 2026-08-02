@@ -1,7 +1,8 @@
-import CanvasWorld from '@src/feature/world/components/CanvasWorld';
-import InfoScreen from '@feature/infoScreen/InfoScreen';
+import CanvasWorld from '@widgets/world/components/CanvasWorld';
+import InfoScreen from '@features/infoScreen/InfoScreen';
 import { useCallback, useEffect, useState } from 'react';
-import { service } from '@common/constants/service.constants';
+import { service } from '@shared/constants/service.constants';
+import { PORTAL_ID } from '@shared/constants/portal.constants';
 import { Loader } from '@react-three/drei';
 
 const App = () => {
@@ -10,9 +11,7 @@ const App = () => {
 
   /** 현재 선택된 모델 타입 */
   const getCurrentModelNm = useCallback(() => {
-    const modelNm = localStorage.getItem(
-      service.storage.currentModelNm
-    ) as string;
+    const modelNm = localStorage.getItem(service.storage.currentModelNm) ?? '';
     setCurrentModelNm(modelNm);
   }, []);
 
@@ -28,7 +27,7 @@ const App = () => {
     <>
       <CanvasWorld />
       <InfoScreen />
-      {currentModelNm !== '01' && <Loader />}
+      {currentModelNm !== PORTAL_ID.sandwich && <Loader />}
     </>
   );
 };

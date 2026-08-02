@@ -1,19 +1,8 @@
-// =============================================================================
-// File    :  MenuScreen.tsx
-// Class   :
-// Purpose :  MenuScreen
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
-import ButtonCommon from '@src/common/components/button/ButtonCommon';
-import { sandWichIngredients } from '@src/feature/sandwich/constants/sandWichModel.constants';
-import * as Styles from '@src/feature/sandwich/components/styles/menuScreen.style';
+import ButtonCommon from '@shared/ui/button/ButtonCommon';
+import { sandwichIngredients } from '@features/sandwich/constants/sandwichModel.constants';
+import * as Styles from '@features/sandwich/components/styles/menuScreen.style';
 import { useMemo } from 'react';
-import { IMenuScreen } from '@feature/sandwich/interface/menuScreen.interface';
+import { IMenuScreen } from '@features/sandwich/interface/menuScreen.interface';
 
 /**
  * 샌드위치 메뉴 화면 컴포넌트
@@ -22,7 +11,7 @@ import { IMenuScreen } from '@feature/sandwich/interface/menuScreen.interface';
  */
 const MenuScreen = ({ addMenuCallback, orderHandlerCallback }: IMenuScreen) => {
   // 빵을 제외한 요소 반환
-  const filerBread = Object.keys(sandWichIngredients).filter((item) => {
+  const filerBread = Object.keys(sandwichIngredients).filter((item) => {
     return item !== 'bread';
   });
 
@@ -34,13 +23,13 @@ const MenuScreen = ({ addMenuCallback, orderHandlerCallback }: IMenuScreen) => {
           <ButtonCommon
             size='L'
             onClick={() => {
-              addMenuCallback(item, sandWichIngredients[item].price);
+              addMenuCallback(item, sandwichIngredients[item].price);
             }}
           >
             $
-            {sandWichIngredients[item].price +
+            {sandwichIngredients[item].price +
               ' ' +
-              sandWichIngredients[item].icon}
+              sandwichIngredients[item].icon}
           </ButtonCommon>
         </div>
       );

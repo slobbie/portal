@@ -1,43 +1,29 @@
-// =============================================================================
-// File    :  SandWichModel.tsx
-// Class   :
-// Purpose :  SandWichModel
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import SandWichIngredient from '@src/feature/sandwich/model/SandWichIngredient';
-import {
-  isOrderState,
-  sandWichState,
-} from '@src/feature/sandwich/atom/sandWich.atom';
-import { useRoute } from 'wouter';
-import { SpringValue, a, useSpring } from '@react-spring/three';
+import SandwichIngredient from '@features/sandwich/model/SandwichIngredient';
+import { useSandwichStore } from '@features/sandwich/store/sandwich.store';
 import {
   IGroupAnimation,
   TVectorPosition,
-} from '@feature/sandwich/interface/modelPosition.interface';
+} from '@features/sandwich/interface/modelPosition.interface';
+import { useMatchPortal } from '@shared/hooks/usePortalRoute';
+import { PORTAL_ID } from '@shared/constants/portal.constants';
+import { SpringValue, a, useSpring } from '@react-spring/three';
 
 /**
  * 샌드 위치 3d 모델
  * @returns React.JSX.Element
  */
-const SandWichModel = () => {
-  const isOrder = useRecoilValue(isOrderState);
+const SandwichModel = () => {
+  const isOrder = useSandwichStore((state) => state.isOrder);
   /** 재료 사이 공백 */
   const spacing = useMemo(() => {
     return isOrder ? 0.05 : 0.2;
   }, [isOrder]);
   // 샌드위치 재료
-  const ingredients = useRecoilValue(sandWichState);
+  const ingredients = useSandwichStore((state) => state.sandwich);
 
   /** 현재 주소 경로  */
-  const [isParam] = useRoute('/portal/01');
+  const isParam = useMatchPortal(PORTAL_ID.sandwich);
 
   /** 주문 완료시 position */
   const completeOrderPosition = useMemo(() => {
@@ -57,13 +43,13 @@ const SandWichModel = () => {
   });
 
   // 샌드위치 재료 랜더링
-  const renderSandWichIngredient = useMemo(() => {
+  const renderSandwichIngredient = useMemo(() => {
     return ingredients.map((item, index) => {
       /** index 가 0 보다 크고, index가 재료의 총 길이 index보다 작아야하며, 길이가 4 이상이여야함  */
       const isShowPrice =
         index > 0 && index < ingredients.length - 1 && ingredients.length !== 4;
       return (
-        <SandWichIngredient
+        <SandwichIngredient
           key={item.id}
           ingredient={item}
           showPrice={isShowPrice}
@@ -71,16 +57,16 @@ const SandWichModel = () => {
         />
       );
     });
-  }, [ingredients, isOrder]);
+  }, [ingredients, spacing]);
 
   return (
     <a.group
       position={position as SpringValue<TVectorPosition>}
       rotation={rotation}
     >
-      {renderSandWichIngredient}
+      {renderSandwichIngredient}
     </a.group>
   );
 };
 
-export default SandWichModel;
+export default SandwichModel;

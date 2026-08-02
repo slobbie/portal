@@ -40,26 +40,26 @@ const ShoePanel = () => {
       <div css={Styles.panel}>
         <h2 css={Styles.title}>Shoe Parts</h2>
 
-      <div css={Styles.partList}>
-        {SHOE_PARTS.map((part) => (
-          <div
-            key={part}
-            css={Styles.partItem(part === activePart)}
-            onClick={() => setCurrentParts(part)}
-          >
-            <span css={Styles.swatch(colors[part])} />
-            <span css={Styles.partLabel}>{part}</span>
-          </div>
-        ))}
-      </div>
+        <div css={Styles.partList}>
+          {SHOE_PARTS.map((part) => (
+            <div
+              key={part}
+              css={Styles.partItem(part === activePart)}
+              onClick={() => setCurrentParts(part)}
+            >
+              <span css={Styles.swatch(colors[part])} />
+              <span css={Styles.partLabel}>{part}</span>
+            </div>
+          ))}
+        </div>
 
-      <div css={Styles.pickerBox}>
-        <span css={Styles.selectedLabel}>{activePart}</span>
-        <HexColorPicker
-          color={colors[activePart]}
-          onChange={(newColor) => setPartColor(activePart, newColor)}
-        />
-      </div>
+        <div css={Styles.pickerBox}>
+          <span css={Styles.selectedLabel}>{activePart}</span>
+          <HexColorPicker
+            color={colors[activePart]}
+            onChange={(newColor) => setPartColor(activePart, newColor)}
+          />
+        </div>
       </div>
     </>
   );

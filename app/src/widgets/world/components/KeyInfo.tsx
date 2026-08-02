@@ -1,22 +1,10 @@
-// =============================================================================
-// File    :  KeyInfo.tsx
-// Class   :
-// Purpose :  KeyInfo
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-import { useEffect } from 'react';
-import * as keyStyles from '@feature/infoScreen/styles/infoScreen.style';
+import * as keyStyles from '@features/infoScreen/styles/infoScreen.style';
 import Arrow from '@assets/icon/arrow.png';
+import { useWorldStore } from '@shared/store/world.store';
+import Space from '@shared/ui/space/Space';
+import { keyControls } from '@widgets/world/interface/keyboardControls.interface';
+import { TDirection } from '@widgets/world/interface/keyInfo.interface';
 import { useKeyboardControls } from '@react-three/drei';
-import { useRecoilState } from 'recoil';
-import { isCharacterMove } from '@src/common/atom/model.atom';
-import Space from '@src/common/components/space/Space';
-import { keyControls } from '@feature/world/interface/keyboardControls.interface';
-import { TDirection } from '@feature/world/interface/keyInfo.interface';
 
 /**
  * 키보드 모양 버튼 그룹 컴포넌트
@@ -38,16 +26,16 @@ const KeyInfo = () => {
   );
   const [, get] = useKeyboardControls<keyControls>();
 
-  /** 캐릭터 클릭 움직임 상태 */
-  const [isMovement, setIsMovement] = useRecoilState(isCharacterMove);
+  /** 캐릭터 클릭 움직임 상태 토글 (Floor 리렌더 트리거) */
+  const toggleCharacterMove = useWorldStore(
+    (state) => state.toggleCharacterMove
+  );
 
   /** 캐릭터 클릭으로 움직임 제어 함수 */
   const characterMoveController = (direction: TDirection) => {
     get()[direction] = !get()[direction];
-    setIsMovement((prev) => !prev);
+    toggleCharacterMove();
   };
-
-  useEffect(() => {}, [isMovement]);
 
   return (
     <div css={keyStyles.KeyBoardInfoContent}>

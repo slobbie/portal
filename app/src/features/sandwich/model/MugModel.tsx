@@ -1,14 +1,13 @@
 import { Suspense } from 'react';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
+import { useSandwichStore } from '@features/sandwich/store/sandwich.store';
+import { IModelPosition } from '@features/sandwich/interface/modelPosition.interface';
 import { animated, useSpring } from '@react-spring/three';
 import { Gltf } from '@react-three/drei';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
-import { useRecoilValue } from 'recoil';
-import { isOrderState } from '@feature/sandwich/atom/sandWich.atom';
-import { IModelPosition } from '@feature/sandwich/interface/modelPosition.interface';
 
 /** 머그컵 모델 컴포넌트 */
 const MugModel = () => {
-  const isOrder = useRecoilValue(isOrderState);
+  const isOrder = useSandwichStore((state) => state.isOrder);
 
   const { x, y, z, scale } = useSpring<IModelPosition>({
     x: isOrder ? -1.3 : 0,

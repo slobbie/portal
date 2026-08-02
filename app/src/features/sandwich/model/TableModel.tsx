@@ -1,21 +1,9 @@
-// =============================================================================
-// File    :  TableModel.tsx
-// Class   :
-// Purpose :  TableModel
-// Date    :  2024.07
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { Suspense } from 'react';
-import { useRecoilValue } from 'recoil';
-import { isOrderState } from '@feature/sandwich/atom/sandWich.atom';
+import { useSandwichStore } from '@features/sandwich/store/sandwich.store';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
+import { IModelPosition } from '@features/sandwich/interface/modelPosition.interface';
 import { animated, useSpring } from '@react-spring/three';
 import { Gltf } from '@react-three/drei';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
-import { IModelPosition } from '@feature/sandwich/interface/modelPosition.interface';
 
 /**
  *
@@ -24,7 +12,7 @@ import { IModelPosition } from '@feature/sandwich/interface/modelPosition.interf
  * @returns React.JSX.Element
  */
 const TableModel = () => {
-  const isOrder = useRecoilValue(isOrderState);
+  const isOrder = useSandwichStore((state) => state.isOrder);
 
   const { x, y, z, scale } = useSpring<IModelPosition>({
     x: isOrder ? -0.1 : 0,

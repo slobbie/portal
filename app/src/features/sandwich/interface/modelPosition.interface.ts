@@ -1,14 +1,3 @@
-// =============================================================================
-// File    : modelPosition.interface.ts
-// Class   :
-// Purpose : modelPosition.interface.ts 인터페이스
-// Date    : 2024.07
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { Euler } from 'three';
 
 interface IVectorRotation extends Euler {}

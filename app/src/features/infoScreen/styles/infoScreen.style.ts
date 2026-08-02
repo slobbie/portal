@@ -1,18 +1,7 @@
-// =============================================================================
-// File    : infoScreen.style.ts
-// Class   :
-// Purpose : infoScreen.style.ts 스타일
-// Date    : 2024.04
-// Author  : JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { css } from '@emotion/react';
 
 export const Content = css`
-  position: 'absolute';
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

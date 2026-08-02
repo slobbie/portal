@@ -1,16 +1,5 @@
-// =============================================================================
-// File    : buttonCommon.ts
-// Class   :
-// Purpose : buttonCommon.ts 스타일
-// Date    : 2024.03
-// Author  : JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
+import { theme } from '@app/styles/theme';
 import { css } from '@emotion/react';
-import { theme } from '@src/common/styles/theme';
 
 // const fontSizeL = css`
 //   ${theme.fonts.button_L};
@@ -73,7 +62,9 @@ const commonStyle = () => {
         opacity: 0.7;
       }
     }
-    transition: 0.1s background ease-in, 0.1s color ease-in;
+    transition:
+      0.1s background ease-in,
+      0.1s color ease-in;
     &:focus-visible {
       box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
     }

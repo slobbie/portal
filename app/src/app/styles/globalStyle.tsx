@@ -1,14 +1,3 @@
-// =============================================================================
-// File    : globalStyle.ts
-// Class   :
-// Purpose : globalStyle.ts 스타일
-// Date    : 2024.03
-// Author  : JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
 import { Global, css } from '@emotion/react';
 
 const resetStyle = css`
@@ -144,7 +133,7 @@ const resetStyle = css`
   }
 
   body,
-  root {
+  #root {
     padding: 0;
     margin: 0;
     background-color: #f0f0f0;

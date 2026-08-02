@@ -1,24 +1,13 @@
-// =============================================================================
-// File    :  ButtonCommon.tsx
-// Class   :
-// Purpose :  ButtonCommon
-// Date    :  2024.03
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-import * as buttonStyle from '@common/components/button/styles/buttonCommon';
+import * as buttonStyle from '@shared/ui/button/styles/buttonCommon.style';
 import React, { ButtonHTMLAttributes, Ref, forwardRef } from 'react';
 
 export type buttonSize = 'S' | 'M' | 'L';
 export type Variant = 'primaryStyle' | 'outlineStyle';
 
-export interface IButtonProps
-  extends Omit<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    'onAnimationStart' | 'onDrag' | 'onDragEnd' | 'onDragStart' | 'style'
-  > {
+export interface IButtonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'onAnimationStart' | 'onDrag' | 'onDragEnd' | 'onDragStart' | 'style'
+> {
   /**
    * 정의된 버튼 사이즈
    */

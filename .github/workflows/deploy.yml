@@ -1,0 +1,59 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.0'
+
+      # Enable corepack for Yarn 4
+      - name: Enable Corepack
+        run: corepack enable
+
+      # Cache dependencies
+      - name: Yarn Cache - PnP
+        uses: actions/cache@v4
+        with:
+          path: |
+            app/.yarn/cache
+            app/.pnp.*
+          key: ${{ runner.os }}-yarn-${{ hashFiles('app/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      # Build the project
+      - name: Build project
+        run: yarn build
+
+      # Deploy to GitHub Pages
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: app/dist

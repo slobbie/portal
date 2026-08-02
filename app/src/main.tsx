@@ -1,15 +1,12 @@
+import App from '@app/App.tsx';
+import { theme } from '@app/styles/theme.ts';
+import GlobalStyle from '@app/styles/globalStyle';
 import ReactDOM from 'react-dom/client';
-import App from '@src/App.tsx';
-import { RecoilRoot } from 'recoil';
-import { theme } from '@common/styles/theme.ts';
 import { ThemeProvider } from '@emotion/react';
-import GlobalStyle from '@common/styles/globalStyle';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme={theme}>
-    <RecoilRoot>
-      <GlobalStyle />
-      <App />
-    </RecoilRoot>
+    <GlobalStyle />
+    <App />
   </ThemeProvider>
 );

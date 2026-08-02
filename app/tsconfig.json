@@ -22,13 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@atom/*": ["src/common/atom/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@feature/*": ["src/feature/*"],
-      "@components/*": ["src/components/*"],
-      "@common/*": ["src/common/*"]
+      "@app/*": ["src/app/*"],
+      "@widgets/*": ["src/widgets/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src"],

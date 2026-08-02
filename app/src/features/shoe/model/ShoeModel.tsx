@@ -1,26 +1,16 @@
-// =============================================================================
-// File    :  shoeModel.tsx
-// Class   :
-// Purpose :  shoeModel
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
 import { Group, Vector3 } from 'three';
-import { useGLTF } from '@react-three/drei';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ThreeEvent, useFrame } from '@react-three/fiber';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   IShoeModelColorState,
-  shoeCurrentPartsName,
-  shoeModelColorState,
-} from '@src/feature/shoe/atom/shoeModel.atom';
-import { shoeModelGLTFResult } from '@feature/shoe/interface/shoeModel.interface';
-import { model3DPath } from '@src/common/constants/3dModelPath.constants';
-import { useRoute } from 'wouter';
+  useShoeStore,
+} from '@features/shoe/store/shoe.store';
+import { shoeModelGLTFResult } from '@features/shoe/interface/shoeModel.interface';
+import { model3DPath } from '@shared/constants/3dModelPath.constants';
+import { SHOE } from '@shared/constants/scene.constants';
+import { PORTAL_ID } from '@shared/constants/portal.constants';
+import { useMatchPortal } from '@shared/hooks/usePortalRoute';
+import { ThreeEvent, useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 
 /**
  * 신발 모델 컴포넌트
@@ -28,27 +18,62 @@ import { useRoute } from 'wouter';
  */
 const ShoeModel = () => {
   const groupRef = useRef<Group>(null);
-  const { nodes, materials } = useGLTF(model3DPath.shoe) as shoeModelGLTFResult;
+  const { nodes, materials } = useGLTF(
+    model3DPath.shoe
+  ) as unknown as shoeModelGLTFResult;
   /** 신발 파츠 컬러 */
-  const shoeColorState: IShoeModelColorState =
-    useRecoilValue(shoeModelColorState);
+  const shoeColorState: IShoeModelColorState = useShoeStore(
+    (state) => state.colors
+  );
   /** 현재 주소 경로  */
-  const [isParam] = useRoute('/portal/02');
+  const isParam = useMatchPortal(PORTAL_ID.shoe);
   /** 신발 모델 호버 된 파츠 */
   const [hovered, setHovered] = useState<string>('');
   /**
    * 선택한 모델 차트 이름 저장 함수
    */
-  const setCurrentShoePartsNm = useSetRecoilState(shoeCurrentPartsName);
+  const setCurrentShoePartsNm = useShoeStore((state) => state.setCurrentParts);
+
+  /** 드래그 회전 상태 (회전판) */
+  const isDragging = useRef(false);
+  const lastPointerX = useRef(0);
+  const targetRotationY = useRef(0);
+
+  /** 드래그로 신발을 좌우 회전 (마우스를 누른 채 이동할 때만) */
+  useEffect(() => {
+    const handleMove = (e: PointerEvent) => {
+      if (!isDragging.current) return;
+      const dx = e.clientX - lastPointerX.current;
+      lastPointerX.current = e.clientX;
+      targetRotationY.current += dx * SHOE.dragSensitivity;
+    };
+    const handleUp = () => {
+      isDragging.current = false;
+    };
+    window.addEventListener('pointermove', handleMove);
+    window.addEventListener('pointerup', handleUp);
+    return () => {
+      window.removeEventListener('pointermove', handleMove);
+      window.removeEventListener('pointerup', handleUp);
+    };
+  }, []);
+
+  /** 신발 위에서 드래그 시작 */
+  const handleDragStart = (e: ThreeEvent<PointerEvent>) => {
+    isDragging.current = true;
+    lastPointerX.current = e.clientX;
+  };
 
   useFrame((state) => {
     if (groupRef.current) {
       const t = state.clock.getElapsedTime();
-      groupRef.current.rotation.set(
-        Math.cos(t / 4) / 8,
-        Math.sin(t / 4) / 8,
-        -0.2 - (1 + Math.sin(t / 1.5)) / 20
-      );
+      // 드래그로 누적된 Y 회전으로 부드럽게 보간
+      groupRef.current.rotation.y +=
+        (targetRotationY.current - groupRef.current.rotation.y) * 0.1;
+      // 약간의 고정 기울기 유지
+      groupRef.current.rotation.x = SHOE.tiltX;
+      groupRef.current.rotation.z = SHOE.tiltZ;
+      // 은은한 상하 float 유지
       groupRef.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     }
   });
@@ -66,6 +91,10 @@ const ShoeModel = () => {
         )}'), auto`;
       };
     }
+    // hover 해제 및 언마운트 시 커서 원복
+    return () => {
+      document.body.style.cursor = 'auto';
+    };
   }, [hovered, shoeColorState]);
 
   /** 선택한 신발 파츠 이름 저장 함수  */
@@ -98,6 +127,7 @@ const ShoeModel = () => {
       onPointerOver={shoeHoveredEvent}
       onPointerOut={(e) => e.intersections.length === 0 && setHovered('')}
       // onPointerMissed={() => setCurrentShoePartsNm('')}
+      onPointerDown={handleDragStart}
       onClick={setPartsName}
     >
       <ambientLight intensity={5} />

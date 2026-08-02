@@ -1,23 +1,12 @@
-// =============================================================================
-// File    :  Floor.tsx
-// Class   :
-// Purpose :  Floor
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
-
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Group } from 'three';
+import Character from '@widgets/world/model/Character';
+import { useWorldStore } from '@shared/store/world.store';
+import { keyControls } from '@widgets/world/interface/keyboardControls.interface';
+import { PHYSICS } from '@shared/constants/scene.constants';
 import { Box, useKeyboardControls } from '@react-three/drei';
 import { RapierRigidBody, RigidBody } from '@react-three/rapier';
-import Character from '@src/feature/world/model/Character';
 import { useFrame } from '@react-three/fiber';
-import { useRecoilValue } from 'recoil';
-import { isCharacterMove } from '@src/common/atom/model.atom';
-import { keyControls } from '@feature/world/interface/keyboardControls.interface';
 
 /**
  * 공간 컴포넌트
@@ -42,45 +31,40 @@ const Floor = () => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const characterRef = useRef<Group>(null);
 
-  /** 움직임 정도 상수  */
-  const move = 0.028;
-
-  /** 움직임 속도 상수  */
-  const speedValue = 0.8;
-
   /** 키보드 키 눌린 여부 */
   const isKeyPressed = useMemo(
     () => isRightPressed || isLeftPressed || isForwardPressed || isBackPressed,
     [isRightPressed, isLeftPressed, isForwardPressed, isBackPressed]
   );
-  /** 화면의 키 컨트롤로 인한 캐릭터 움직임 여부  */
-  const isMovement = useRecoilValue(isCharacterMove);
-
-  /** 화살표키 활성화 감지 이펙트 */
-  useEffect(() => {}, [isMovement]);
+  // KeyInfo 버튼이 키보드 상태를 직접 변경하므로, 리렌더를 유발해 변경된 키 상태를 반영
+  useWorldStore((state) => state.isCharacterMove);
 
   /** 캐릭터 움직임 프레임 애니메이션 */
   useFrame(() => {
-    if (characterRef.current && rigidBodyRef.current && isKeyPressed) {
-      const impulse = { x: 0, y: 0, z: 0 };
-      if (isRightPressed) {
-        impulse.x += move;
-      }
-      if (isLeftPressed) {
-        impulse.x -= move;
-      }
-      if (isForwardPressed) {
-        impulse.z -= move;
-      }
-      if (isBackPressed && impulse.z < speedValue) {
-        impulse.z += move;
-      }
-      if (isKeyPressed) {
-        const angle = Math.atan2(impulse.x, impulse.z);
-        characterRef.current.rotation.y = angle;
-      }
-      rigidBodyRef.current.applyImpulse(impulse, true);
+    if (!characterRef.current || !rigidBodyRef.current || !isKeyPressed) {
+      return;
     }
+    // 입력 방향 벡터
+    let dx = 0;
+    let dz = 0;
+    if (isRightPressed) dx += 1;
+    if (isLeftPressed) dx -= 1;
+    if (isForwardPressed) dz -= 1;
+    if (isBackPressed) dz += 1;
+
+    const length = Math.hypot(dx, dz);
+    if (length === 0) {
+      return;
+    }
+
+    // 방향 정규화 후 목표 속도 지정 → 전방향 동일 속도(대각선 가속 없음),
+    // setLinvel 이라 프레임률·질량 무관. y 속도(중력)는 유지.
+    const speed = PHYSICS.characterSpeed;
+    const vx = (dx / length) * speed;
+    const vz = (dz / length) * speed;
+    const current = rigidBodyRef.current.linvel();
+    rigidBodyRef.current.setLinvel({ x: vx, y: current.y, z: vz }, true);
+    characterRef.current.rotation.y = Math.atan2(vx, vz);
   });
 
   return (
@@ -88,7 +72,7 @@ const Floor = () => {
       <RigidBody
         ref={rigidBodyRef}
         enabledRotations={[false, false, false]}
-        linearDamping={50}
+        linearDamping={PHYSICS.characterLinearDamping}
         lockRotations
       >
         <group ref={characterRef} position={[0, -1, 1]} scale={0.003}>

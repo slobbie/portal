@@ -1,31 +1,17 @@
-// =============================================================================
-// File    :  CardFrame.tsx
-// Class   :
-// Purpose :  CardFrame
-// Date    :  2024.04
-// Author  :  JHS
-// History :
-// =============================================================================
-// Copyright (C) 2024 JHS All rights reserved.
-// =============================================================================
 import { DoubleSide } from 'three';
-import { useRef, useState } from 'react';
+import { ComponentRef, useRef, useState } from 'react';
+import { useWorldStore } from '@shared/store/world.store';
+import { IPortalFrame } from '@widgets/world/interface/portalFrame.interface';
+import { service } from '@shared/constants/service.constants';
+import { usePortalParams } from '@shared/hooks/usePortalRoute';
+import { PHYSICS } from '@shared/constants/scene.constants';
 import { useFrame, extend } from '@react-three/fiber';
-import {
-  useCursor,
-  MeshPortalMaterial,
-  Text,
-  PortalMaterialType,
-} from '@react-three/drei';
-import { useRoute, useLocation } from 'wouter';
+import { useCursor, MeshPortalMaterial, Text } from '@react-three/drei';
+import { useLocation } from 'wouter';
 import { easing, geometry } from 'maath';
-import { useRecoilState } from 'recoil';
 import { RigidBody } from '@react-three/rapier';
-import { isPortal } from '@src/common/atom/portal.atom';
-import { IPortalFrame } from '@src/feature/world/interface/portalFrame.interface';
-import { service } from '@src/common/constants/service.constants';
 
-extend(geometry);
+extend({ RoundedPlaneGeometry: geometry.RoundedPlaneGeometry });
 
 /**
  * 포탈 프레임 컴포넌트
@@ -50,12 +36,14 @@ const PortalFrame = ({
   groupProps,
 }: IPortalFrame) => {
   /** 포탈 프레인 머티리얼 ref */
-  const portalRef = useRef<PortalMaterialType>(null);
+  const portalRef = useRef<ComponentRef<typeof MeshPortalMaterial>>(null);
   const [, setLocation] = useLocation();
-  const [, params] = useRoute('/portal/:id');
+  const { id: portalId } = usePortalParams();
   const [frameHovered, setFrameHovered] = useState(false);
   /** 포털 여부 상태 */
-  const [isPortalToggle, setIsPortalToggle] = useRecoilState(isPortal);
+  const isPortalToggle = useWorldStore((state) => state.isPortal);
+  const setPortal = useWorldStore((state) => state.setPortal);
+  const setHoveredPortal = useWorldStore((state) => state.setHoveredPortal);
   /** 현재 프레임 */
   useCursor(frameHovered);
 
@@ -64,7 +52,7 @@ const PortalFrame = ({
       easing.damp(
         portalRef.current,
         'blend',
-        params?.id === id ? 1 : 0,
+        portalId === id ? 1 : 0,
         0.2,
         dt
       );
@@ -75,7 +63,7 @@ const PortalFrame = ({
     // e.stopPropagation();
     localStorage.setItem(service.storage.currentModelNm, id);
     setLocation('/portal/' + id);
-    setIsPortalToggle(true);
+    setPortal(true);
   };
 
   return (
@@ -110,7 +98,7 @@ const PortalFrame = ({
         type='fixed'
         colliders='trimesh'
         enabledRotations={[false, false, false]}
-        linearDamping={12}
+        linearDamping={PHYSICS.portalLinearDamping}
         lockRotations
         onCollisionEnter={() => {
           if (!isPortalToggle) {
@@ -121,14 +109,22 @@ const PortalFrame = ({
         <mesh
           name={id}
           onClick={onRouter}
-          onPointerOver={() => setFrameHovered(true)}
-          onPointerOut={() => setFrameHovered(false)}
+          onPointerOver={() => {
+            setFrameHovered(true);
+            setHoveredPortal(id);
+          }}
+          onPointerOut={() => {
+            setFrameHovered(false);
+            setHoveredPortal(null);
+          }}
         >
           <roundedPlaneGeometry args={[width, height, 0.1]} />
           <MeshPortalMaterial
             ref={portalRef}
-            events={params?.id === id}
+            events={portalId === id}
             side={DoubleSide}
+            resolution={512}
+            blur={0}
             transparent
           >
             <color attach='background' args={[bg]} />
